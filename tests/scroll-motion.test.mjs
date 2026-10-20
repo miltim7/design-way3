@@ -8,13 +8,13 @@ function fixture(reduced=false){
  class Observer{constructor(callback){this.callback=callback;this.observed=new Set();observer=this;}observe(el){this.observed.add(el);}unobserve(el){this.observed.delete(el);}disconnect(){this.observed.clear();}}
  const root={hidden:false,activeElement:null,querySelector:s=>s==='.hero'?{}:null,querySelectorAll:s=>s==='.service-card,.package'?cards:[],addEventListener:(type,fn)=>{listeners[type]=fn;},removeEventListener:type=>{delete listeners[type];}};
  const dispose=setupScrollMotion(root,{matchMedia:()=>preference,IntersectionObserver:Observer,location:{hash:'#services'},scrollY:100});
- const enter=(els=cards)=>observer.callback(els.map(target=>({target,isIntersecting:true,boundingClientRect:{bottom:100}})));
+ const enter=(els=cards)=>observer.callback(els.map(target=>({target,isIntersecting:true,intersectionRatio:.2,boundingClientRect:{bottom:100}})));
  return {cards,observer,preference,root,listeners,enter,dispose};
 }
 test('scroll entry runs once with bounded stagger and no persistent hidden state',()=>{
  const f=fixture();f.enter();f.enter();
  assert.deepEqual(f.cards.map(c=>c.animations.length),[1,1,1,1]);
- assert.deepEqual(f.cards.map(c=>c.animations[0].options.delay),[0,55,110,165]);
+ assert.deepEqual(f.cards.map(c=>c.animations[0].options.delay),[0,110,220,330]);
  assert.equal(f.observer.observed.size,0);
  assert(f.cards.every(c=>!('style' in c)));
  f.dispose();
@@ -38,4 +38,11 @@ test('hidden pages settle running motion and unsupported observers leave content
  const f=fixture();f.enter();f.root.hidden=true;f.listeners.visibilitychange();
  assert(f.cards.every(c=>c.animations[0].finishedNow));f.dispose();
  assert.doesNotThrow(()=>setupScrollMotion({querySelector:()=>({})},{matchMedia:()=>({matches:false})})());
+});
+
+test('a sliver at the viewport edge does not consume the entrance',()=>{
+ const f=fixture();
+ f.observer.callback([{target:f.cards[0],isIntersecting:true,intersectionRatio:.01,boundingClientRect:{bottom:100}}]);
+ assert.equal(f.cards[0].animations.length,0);assert(f.observer.observed.has(f.cards[0]));
+ f.enter([f.cards[0]]);assert.equal(f.cards[0].animations.length,1);f.dispose();
 });
