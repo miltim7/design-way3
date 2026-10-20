@@ -10,7 +10,7 @@
     "dev": "node scripts/build.mjs && node server.mjs",
     "build": "node scripts/build.mjs",
     "start": "node server.mjs",
-    "test": "node --test tests/server.test.mjs tests/accounts.test.mjs tests/motion.test.mjs tests/service-catalog.test.mjs",
+    "test": "node --test tests/server.test.mjs tests/accounts.test.mjs tests/motion.test.mjs tests/service-catalog.test.mjs tests/scroll-motion.test.mjs",
     "check": "node scripts/check.mjs"
   },
   "devDependencies": {

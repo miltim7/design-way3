@@ -514,3 +514,20 @@ body:has(>main>.hero)>.header .mobile-nav{background:#21150f;color:#fff8f1;borde
  .contact-form-wrap .form-grid{gap:0}
  .contact-prompt{padding-top:20px;margin-top:24px}
 }
+
+/* Small tactile responses, confined to devices with a precise pointer. */
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+ .button:hover,.header-cta:hover{transform:translateY(-2px)}
+ .button:active,.header-cta:active{transform:translateY(1px)}
+ .button>svg,.header-cta>svg,.text-link>svg,.order-link>svg{transition:transform 220ms var(--motion-ease)}
+ .button:hover>svg,.header-cta:hover>svg,.text-link:hover>svg,.order-link:hover>svg{transform:translateX(3px)}
+ .service-card{transition:border-color 220ms ease}
+ .service-card:hover{border-color:#b99b87}
+ .service-art{transition:scale 550ms var(--motion-ease)}
+ .service-card:hover .service-art{scale:1.025}
+ .project-open{transition:background-color 220ms ease,scale 220ms var(--motion-ease)}
+ .project-image:hover .project-open{background:#fff1e5;scale:1.08}
+}
+@media(prefers-reduced-motion:reduce){
+ .project-image:hover img,.hero-image:hover img{transform:none}
+}
