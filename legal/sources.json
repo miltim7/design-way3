@@ -1,0 +1,34 @@
+[
+  {
+    "slug": "privacy-policy",
+    "title": "Политика конфиденциальности",
+    "source": "https://www.sibaxdesign.ru/privacy-policy/",
+    "copiedAt": "2026-10-20T09:58:18.188Z",
+    "sha256": "d402759f468cbeda053457f886d597ad8fde078ffdb5af5c2429a2252ce30876",
+    "textCharacters": 11824
+  },
+  {
+    "slug": "offer-agreement",
+    "title": "Договор публичной оферты",
+    "source": "https://www.sibaxdesign.ru/offer-agreement/",
+    "copiedAt": "2026-10-20T09:58:18.192Z",
+    "sha256": "4258a290ebabda65ad6de30885772a930f0ee797e5d0413a735a35e9547a4e5f",
+    "textCharacters": 3135
+  },
+  {
+    "slug": "delivery",
+    "title": "Информация о доставке и оплате",
+    "source": "https://www.sibaxdesign.ru/delivery/",
+    "copiedAt": "2026-10-20T09:58:18.195Z",
+    "sha256": "d25d484c9d98878f761336c5af744ca41fca370e407ddd416ba7697300ef079b",
+    "textCharacters": 2387
+  },
+  {
+    "slug": "payment",
+    "title": "Способы оплаты",
+    "source": "https://www.sibaxdesign.ru/payment/",
+    "copiedAt": "2026-10-20T09:58:18.198Z",
+    "sha256": "df2eb2f2cc009b1aeea616970ee001ea47a53d75148908697426d233fbc69598",
+    "textCharacters": 4716
+  }
+]
