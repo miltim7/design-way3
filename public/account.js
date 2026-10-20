@@ -44,6 +44,9 @@
     } catch {
       throw Error('Не удалось связаться с сервером. Проверьте соединение и повторите.');
     }
+    if (response.status === 404 || response.status === 405) {
+      throw Object.assign(Error('Вход и регистрация пока недоступны. Попробуйте позже.'), { status: response.status, unavailable: true });
+    }
     let result;
     try { result = await response.json(); } catch { throw Error('Не удалось прочитать ответ сервера. Повторите попытку.'); }
     if (!response.ok || result.ok !== true) throw Object.assign(Error(result.message || 'Не удалось выполнить действие.'), { field: result.field, status: response.status });
@@ -128,7 +131,7 @@
   });
   if (account) {
     request('me').then(({ user }) => { fillProfile(user); account.hidden = false; animateUI(account,[{opacity:0},{opacity:1}]); }).catch(error => {
-      if (error.status === 401) { window.location.replace('/sign-in/'); return; }
+      if (error.status === 401 || error.unavailable) { window.location.replace('/sign-in/'); return; }
       document.querySelector('[data-account-greeting]').textContent = 'Профиль пока не загрузился.';
       const status = document.querySelector('[data-account-status]');
       status.textContent = error.message + ' ';
