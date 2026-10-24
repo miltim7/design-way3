@@ -37,10 +37,10 @@ export function setupScrollMotion(root,view){
   }
  },{threshold:.12,rootMargin:'0px 0px -48px 0px'});
  function add(selector,type){for(const element of root.querySelectorAll(selector)){element.dataset.scrollMotion=type;targets.push(element);}}
- add('.section-heading,.process-title,.coordinator-identity,.coordinator-copy,.faq-layout>h2,.faq-list,.contact-intro,.contact-form-wrap,.footer-top','section');
+ add('.section-heading,.process-title,.coordinator-identity,.coordinator-copy,.catalog-aside,.collaboration-heading,.order-notes-heading,.order-note,.contact-intro,.contact-form-wrap,.footer-top','section');
  add('.service-card,.package','card');
  add('.project','project');
- add('.steps>li','step');
+ add('.conversation-steps>li','section');
  if(!preference.matches)targets.forEach(element=>observer.observe(element));
  function onPreference(event){
   if(event.matches){finishAll();observer.disconnect();}

@@ -5,10 +5,10 @@
 web
 
 ## Stack
-Delegated explicitly by the user: choose a simple maintainable landing architecture. Static HTML rendered at build time from editable data, CSS, vanilla JavaScript; Node.js server for the request integration. No CMS or payments without evidence.
+Static HTML rendered at build time from editable data, CSS, vanilla JavaScript; Node.js server for request integration. No CMS or payments without evidence.
 
 ## Users
-Russian-speaking business owners and marketers ordering graphic design: identity, advertising, print and digital materials.
+Russian-speaking business owners and marketers ordering identity, advertising, print and digital materials.
 
 ## Product Purpose
 Explain services, deliverables and prices, let visitors explore examples and submit a specific request.
@@ -17,16 +17,16 @@ Explain services, deliverables and prices, let visitors explore examples and sub
 An independent service brand. Anna coordinates customers and external performers; no claims that she designs, owns a large studio or authored client work.
 
 ## Operating Context
-Sibax is the single source of service facts. Reference repositories and previous sites are visual anti-references. Production publication requires a separate instruction.
+Sibax is the source of service facts. Reference repositories and previous sites are visual anti-references. Publication follows the user's existing authorization for this project.
 
 ## Capabilities and Constraints
-The site is independent of Sibax: own registration, login, users and sessions. Never substitute an external account link or require access to Sibax backend. Retain confirmed services, package contents, portfolio exploration, selected service in requests, contact form, FAQ and legal navigation. Do not treat login or payment copy as proof of a working service. Form success requires explicit server confirmation. Unknown new brand, contacts, legal entity, domain and integration access must be centralized and documented. No made-up reviews, metrics, time estimates, free revisions or guarantees.
+Own registration, login, users and sessions; never substitute a Sibax account link or require its backend. Retain confirmed services and prices, portfolio exploration, selected service in requests, contact form and legal navigation. The approved homepage shows examples before services, combines Anna and three work stages, and presents four order explanations openly. Basic/Professional/Premium packages, their navigation and form options are removed. The FAQ accordion is replaced with visible explanations. Form success requires explicit server confirmation. Unknown brand, contacts, legal entity, domain and integration access remain centralized. No invented reviews, metrics, time estimates, free revisions or guarantees.
 
 ## Evidence on Hand
-Source https://github.com/miltim7/design-way2 cloned to a temporary audit folder. Live Sibax accessed in browser and live scripts downloaded separately. Previous sites: design-way.ru, agafonovwedd.ru, avs-photo.ru. Reuse permissions for old work are unknown: use newly generated demonstrations clearly identified as concepts.
+Service facts came from https://github.com/miltim7/design-way2 and the live Sibax site. Previous visual references: design-way.ru, agafonovwedd.ru, avs-photo.ru. Old-work reuse permissions are unknown; the site's existing generated examples are identified as demonstrations. Asset provenance: docs/image-prompts.md and src/service-art.json.
 
 ## Brand Commitments
-Russian, concrete, clear copy. A new self-contained visual identity chosen independently, as explicitly requested. Any working name is an unconfirmed proposal, not a verified registered brand.
+Concrete Russian copy. Preserve approved terracotta #753b29, dark brown #2d1c15, cream #f5eee5, Onest and the original full-width hero scene. October 25 changes restructure this existing identity. The working name is provisional.
 
 ## Accessibility & Inclusion
-360–1440+ px responsive layout, semantic HTML, keyboard controls, visible focus, reduced motion, accessible labels and validation.
+320–1440+ px responsive layout, semantic HTML, keyboard controls, visible focus, reduced motion, accessible labels and validation.
