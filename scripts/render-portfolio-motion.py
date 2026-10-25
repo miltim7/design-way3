@@ -103,18 +103,18 @@ def music(t):
  txt(d,(74,610),'Музыка задаёт движение.',20,'#d7c0ad')
  return im
 
-def render(name,fn,audio_path,poster):
+def render(name,fn,audio_path,poster,video_name=None):
  silent=ROOT/'artifacts'/f'{name}-silent.mp4'
  cmd=[FF,'-y','-f','rawvideo','-vcodec','rawvideo','-s',f'{W}x{H}','-pix_fmt','rgb24','-r',str(FPS),'-i','-','-an','-c:v','libx264','-preset','fast','-crf','22','-pix_fmt','yuv420p',str(silent)]
  p=subprocess.Popen(cmd,stdin=subprocess.PIPE,stderr=subprocess.DEVNULL)
  for n in range(FPS*DURATION):p.stdin.write(fn(n/FPS).tobytes())
  p.stdin.close();assert p.wait()==0
- subprocess.run([FF,'-y','-i',str(silent),'-i',str(audio_path),'-c:v','copy','-c:a','aac','-b:a','128k','-af','apad','-t',str(DURATION),'-movflags','+faststart',str(OUT/f'{name}.mp4')],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+ subprocess.run([FF,'-y','-i',str(silent),'-i',str(audio_path),'-c:v','copy','-c:a','aac','-b:a','128k','-af','apad','-t',str(DURATION),'-movflags','+faststart',str(OUT/f'{video_name or name}.mp4')],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
  cover=Image.new('RGB',(1536,1024),'#f5eee5' if name=='business-story' else '#171d24')
  cover.paste(fn(2.8).resize((1536,864),Image.Resampling.LANCZOS),(0,80))
  cover.save(ROOT/'assets-original/services'/f'{poster}.png')
  fn(2.8).save(OUT/f'{name}-poster.jpg',quality=90)
  print(f'Rendered {name}: {DURATION}s, H264/AAC, 1280x720',flush=True)
 
-render('business-story',business,ROOT/'artifacts/business-narration.wav','business-video')
+render('business-story',business,ROOT/'assets-original/audio/business-narration-neural.wav','business-video',video_name='business-story-voice-v2')
 render('music-film',music,music_path,'music-video')

@@ -6,7 +6,7 @@
 
 ## Медиа и воспроизведение
 
-- business-story.mp4 — 12 секунд, H.264/AAC, 1280×720; оригинальная анимация с персонажем. Русская синтезированная озвучка Microsoft Pavel, текст и WebVTT. Иллюстрация персонажа создана ImageGen. Это анимация готового персонажа, без заявлений о покадровом 3D-производстве или синхронизации губ.
+- business-story-voice-v2.mp4 — 12 секунд, H.264/AAC, 1280×720; оригинальная анимация с персонажем. Русская нейросетевая озвучка Silero CIS base, голос ru_eduard, текст и WebVTT. Иллюстрация персонажа создана ImageGen. Это анимация готового персонажа, без заявлений о покадровом 3D-производстве или синхронизации губ.
 - music-film.mp4 — 12 секунд, H.264/AAC, 1280×720; оригинальная графическая анимация орбит, частиц и ритма. Инструментальная музыка синтезирована в scripts/render-portfolio-motion.py; чужая песня не используется. Это пример графического направления для музыкального видео.
 - Полные видео в модалке запускаются пользователем: без автозапуска и фонового звука. Управление звуком и полный экран — стандартные элементы плеера. Пауза при закрытии, смене примера и скрытии вкладки. Превью в галерее и каталоге проигрываются автоматически без звука и циклически, когда видимы на четверть. Кнопка паузы останавливает отдельное превью; уход из видимой области, скрытие вкладки и модалка приостанавливают видео. Reduced motion оставляет постер и ручной запуск. Контроллер — public/video-previews.js; поведение проверяет tests/video-previews.test.mjs.
 - Замена фона: исходник и результат одного предмета, сравнение доступным с клавиатуры диапазоном с процентами в aria-valuetext без дополнительных кнопок ракурсов и подписи под медиа. Клавиатура не переключает проект при работе с ползунком.
@@ -15,19 +15,21 @@
 
 assets-original/services/marketplace-card.png, product-before.png, product-background.png, courier-character.png. Рендеры business-video.png и music-video.png — кадры оригинальных роликов. public/assets/services/* — адаптивные WebP 640/960/1280/1920. public/assets/video/ — видео, постеры и субтитры.
 
-Локальная озвучка: PowerShell System.Speech.Synthesis.SpeechSynthesizer, голос Microsoft Pavel, Rate=0, текст «Ваш заказ уже в пути. Доставим бережно, чтобы вы занимались любимым делом.». WAV в artifacts/business-narration.wav. Для воспроизводимости на Windows нужен установленный русский голос. Скомпилированные MP4 сохранены в репозитории.
+Локальная озвучка: scripts/narrate-portfolio.py, Silero v5_cis_base, голос ru_eduard, 48000 Гц. Текст: «Ваш заказ уже в пути. Доставим бережно, чтобы вы занимались любимым делом.». Ударения заданы явно в скрипте. Темп 0.94, вступительная пауза 180 мс, нормализация -17 LUFS. Готовый WAV сохранён в assets-original/audio/business-narration-neural.wav; видео и субтитры получили отдельный URL voice-v2 для обхода кеша прежней озвучки. Скомпилированные MP4 сохранены в репозитории.
+
+Источник модели: https://models.silero.ai/models/tts/ru/v5_cis_base.pt (SHA256 ba41b18f6a707ad93605a162998865e7c087153d2e010a26dd02229dab0e672a). Это CIS base под MIT: https://github.com/snakers4/silero-models/blob/master/LICENSE_CIS. Инструкция производителя: https://github.com/snakers4/silero-models#v5-cis-base-models. Модель загружается отдельно в пользовательский кеш, не входит в репозиторий. Microsoft Pavel из первой версии больше не используется.
 
 Повторная сборка из корня проекта на Windows (после `npm ci`):
 
 ```powershell
-python -m pip install Pillow numpy imageio-ffmpeg
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/narrate-portfolio.ps1
+python -m pip install Pillow numpy imageio-ffmpeg torch requests
+python scripts/narrate-portfolio.py
 python scripts/render-portfolio-motion.py
 node scripts/expanded-assets.mjs
 npm run build
 ```
 
-`scripts/narrate-portfolio.ps1` создаёт озвучку до запуска рендера. `scripts/render-portfolio-motion.py` использует её для бизнес-ролика, синтезирует оригинальную музыку в artifacts/orbit-score.wav и создаёт MP4, постеры и PNG для каталога. Рендер использует шрифты Segoe UI из `C:/Windows/Fonts/`. `scripts/expanded-assets.mjs` затем обновляет четыре размера WebP из PNG. Для обычной сборки готового сайта повторный рендер медиа не требуется.
+`scripts/narrate-portfolio.py` создаёт нейросетевую озвучку до запуска рендера; PowerShell-обёртка вызывает тот же скрипт. `scripts/render-portfolio-motion.py` использует её для бизнес-ролика, синтезирует оригинальную музыку в artifacts/orbit-score.wav и создаёт MP4, постеры и PNG для каталога. Рендер использует шрифты Segoe UI из `C:/Windows/Fonts/`. `scripts/expanded-assets.mjs` затем обновляет четыре размера WebP из PNG. Для обычной сборки готового сайта повторный рендер медиа не требуется.
 
 ## Запросы ImageGen
 
