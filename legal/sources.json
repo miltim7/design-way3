@@ -1,34 +1,26 @@
 [
   {
     "slug": "privacy-policy",
-    "title": "Политика конфиденциальности",
-    "source": "https://www.sibaxdesign.ru/privacy-policy/",
-    "copiedAt": "2026-10-20T09:58:18.188Z",
-    "sha256": "d402759f468cbeda053457f886d597ad8fde078ffdb5af5c2429a2252ce30876",
-    "textCharacters": 11824
+    "path": "legal/privacy-policy.html",
+    "sha256": "648df95bfdfe03f7ddb1d32afcf5c020db2252eb32df9e4110a759e5aeb757cb",
+    "bytes": 22934
   },
   {
     "slug": "offer-agreement",
-    "title": "Договор публичной оферты",
-    "source": "https://www.sibaxdesign.ru/offer-agreement/",
-    "copiedAt": "2026-10-20T09:58:18.192Z",
-    "sha256": "4258a290ebabda65ad6de30885772a930f0ee797e5d0413a735a35e9547a4e5f",
-    "textCharacters": 3135
+    "path": "legal/offer-agreement.html",
+    "sha256": "8304049ac65d0349894cc7942c9048574c0a5ac9164fdd8c2f7d6730936526c5",
+    "bytes": 8299
   },
   {
     "slug": "delivery",
-    "title": "Информация о доставке и оплате",
-    "source": "https://www.sibaxdesign.ru/delivery/",
-    "copiedAt": "2026-10-20T09:58:18.195Z",
-    "sha256": "d25d484c9d98878f761336c5af744ca41fca370e407ddd416ba7697300ef079b",
-    "textCharacters": 2387
+    "path": "legal/delivery.html",
+    "sha256": "846e2f4622d0e231a0185557a0777b2b4b2f39543bbcbc4b84867626c0010c1f",
+    "bytes": 7415
   },
   {
     "slug": "payment",
-    "title": "Способы оплаты",
-    "source": "https://www.sibaxdesign.ru/payment/",
-    "copiedAt": "2026-10-20T09:58:18.198Z",
-    "sha256": "df2eb2f2cc009b1aeea616970ee001ea47a53d75148908697426d233fbc69598",
-    "textCharacters": 4716
+    "path": "legal/payment.html",
+    "sha256": "38d0aab7ee13a4727cc7f619eff41139423c2c6451f8133f443078a97c809883",
+    "bytes": 10567
   }
 ]
