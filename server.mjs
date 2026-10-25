@@ -44,7 +44,7 @@ export async function deliver(payload,{fetchImpl=fetch,env=process.env}={}){
  if(text.length>65536||!parseAcknowledgement(text))throw new Error('UNCONFIRMED');
  return true;
 }
-const mime={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'application/javascript; charset=utf-8','.json':'application/json; charset=utf-8','.svg':'image/svg+xml','.webp':'image/webp','.png':'image/png','.jpg':'image/jpeg','.woff2':'font/woff2','.txt':'text/plain; charset=utf-8','.xml':'application/xml; charset=utf-8'};
+const mime={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'application/javascript; charset=utf-8','.json':'application/json; charset=utf-8','.svg':'image/svg+xml','.webp':'image/webp','.png':'image/png','.jpg':'image/jpeg','.woff2':'font/woff2','.txt':'text/plain; charset=utf-8','.xml':'application/xml; charset=utf-8','.mp4':'video/mp4','.vtt':'text/vtt; charset=utf-8'};
 export function createHandler({root=resolve('dist'),ready=site.legal.ready&&Object.values(site.documents).every(Boolean),send=deliver,expectedOrigin=process.env.PUBLIC_ORIGIN,accountStore}={}){
  const limits=new Map(),requests=new Map();
  const accounts=createAccounts({store:accountStore,expectedOrigin});
@@ -93,7 +93,18 @@ export function createHandler({root=resolve('dist'),ready=site.legal.ready&&Obje
    if(path!==root&&!path.startsWith(root+sep))return json(403,{ok:false,message:'Нет доступа.'});
    let code=200;
    try{if((await stat(path)).isDirectory())path=resolve(path,'index.html');await stat(path);}catch{path=resolve(root,'404.html');code=404;}
-   const data=await readFile(path);res.writeHead(code,{'Content-Type':mime[extname(path)]||'application/octet-stream','Cache-Control':extname(path)==='.html'?'no-cache':'public, max-age=3600'});res.end(req.method==='HEAD'?undefined:data);
+   const data=await readFile(path),headers={'Content-Type':mime[extname(path)]||'application/octet-stream','Cache-Control':extname(path)==='.html'?'no-cache':'public, max-age=3600','Content-Length':data.length};
+   if(extname(path)==='.mp4'){
+    headers['Accept-Ranges']='bytes';
+    if(req.headers.range&&req.method==='GET'){
+     const match=/^bytes=(\d*)-(\d*)$/.exec(req.headers.range);
+     let start=0,end=data.length-1;
+     if(match){if(match[1]){start=Number(match[1]);if(match[2])end=Math.min(Number(match[2]),end);}else if(match[2])start=Math.max(0,data.length-Number(match[2]));}
+     if(!match||(!match[1]&&!match[2])||(!match[1]&&Number(match[2])===0)||start>=data.length||end<start){res.writeHead(416,{'Content-Range':`bytes */${data.length}`});return res.end();}
+     res.writeHead(206,{...headers,'Content-Length':end-start+1,'Content-Range':`bytes ${start}-${end}/${data.length}`});return res.end(data.subarray(start,end+1));
+    }
+   }
+   res.writeHead(code,headers);res.end(req.method==='HEAD'?undefined:data);
   }catch{if(!res.headersSent)json(500,{ok:false,message:'Ошибка сервера. Повторите попытку позже.'});else res.end();}
  };
 }

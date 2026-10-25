@@ -2,10 +2,11 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import vm from 'node:vm';
+import {services} from '../src/content.mjs';
 
 const script=await readFile(new URL('../public/app.js',import.meta.url),'utf8');
 function catalog(mobile=true){
- const groups=['identity','identity','identity','digital','digital','motion','motion','print','print','print','print','print'];
+ const groups=services.map(s=>s.group);
  const element=dataset=>({
   dataset,hidden:false,attributes:{},listeners:{},
   getAttribute(name){return this.attributes[name];},
@@ -15,7 +16,7 @@ function catalog(mobile=true){
   focus(){document.activeElement=this;}
  });
  const cards=groups.map(group=>element({serviceGroup:group}));
- const filters=['all','identity','digital','print','motion'].map(group=>element({serviceFilter:group}));
+ const filters=['all',...new Set(groups)].map(group=>element({serviceFilter:group}));
  const more=element({}),status={},grid={querySelectorAll:()=>cards,classList:{remove(){}}};
  const preference={matches:mobile,addEventListener(_name,fn){this.change=fn;}};
  const document={
@@ -43,7 +44,10 @@ test('phone starts with four services; every filtered category remains complete'
  assert(c.visible().every(card=>card.dataset.serviceGroup==='print'));
  assert.equal(c.more.hidden,true);
  await c.choose('motion');
+ assert.equal(c.visible().length,4);
+ await c.choose('marketplace');
  assert.equal(c.visible().length,2);
+ assert(c.visible().every(card=>card.dataset.serviceGroup==='marketplace'));
  await c.choose('all');
  assert.equal(c.visible().length,4);
  assert.equal(c.more.hidden,false);
@@ -52,19 +56,19 @@ test('show all reveals every service and transfers focus off the disappearing co
  const c=catalog();
  c.document.activeElement=c.more;
  await c.more.listeners.click();
- assert.equal(c.visible().length,12);
+ assert.equal(c.visible().length,services.length);
  assert.equal(c.more.hidden,true);
  assert.equal(c.document.activeElement,c.cards[4]);
  await c.choose('identity');
  await c.choose('all');
- assert.equal(c.visible().length,12);
+ assert.equal(c.visible().length,services.length);
  await c.resize(false);
  await c.resize(true);
- assert.equal(c.visible().length,12);
+ assert.equal(c.visible().length,services.length);
 });
 test('desktop shows all services; resizing preserves the selected category',async()=>{
  const c=catalog(false);
- assert.equal(c.visible().length,12);
+ assert.equal(c.visible().length,services.length);
  assert.equal(c.more.hidden,true);
  await c.resize(true);
  assert.equal(c.visible().length,4);
@@ -72,5 +76,5 @@ test('desktop shows all services; resizing preserves the selected category',asyn
  await c.resize(false);
  assert.equal(c.visible().length,5);
  await c.choose('all');
- assert.equal(c.visible().length,12);
+ assert.equal(c.visible().length,services.length);
 });

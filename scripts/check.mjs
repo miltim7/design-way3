@@ -22,6 +22,12 @@ for(const path of htmls){
 }
 const data=JSON.parse(await readFile(resolve(root,'content.json'),'utf8'));
 for(const p of data.projects)for(const size of [640,1280,1920])assert((await stat(resolve(root,`assets/${p.image}-${size}.webp`))).size>1000);
+for(const p of data.projects){
+ if(p.video)assert((await stat(resolve(root,'.'+p.video))).size>1000,`Missing video ${p.id}`);
+ if(p.captions)assert((await readFile(resolve(root,'.'+p.captions),'utf8')).startsWith('WEBVTT'),`Invalid captions ${p.id}`);
+ if(p.before)for(const size of [640,1280,1920])assert((await stat(resolve(root,`assets/${p.before}-${size}.webp`))).size>1000,`Missing comparison ${p.id}`);
+ assert(data.services.some(s=>s.id===p.service),`Unknown project service ${p.id}`);
+}
 const serviceArt=JSON.parse(await readFile('src/service-art.json','utf8'));
 for(const item of serviceArt)for(const size of [640,960])assert((await stat(resolve(root,`assets/services/${item.image || item.id}-${size}.webp`))).size>1000);
 console.log(`Checked ${htmls.length} pages: local links/assets, anchors, unique IDs, metadata and responsive images.`);

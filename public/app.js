@@ -98,6 +98,7 @@ function openDialog(dialog,origin=document.activeElement){
 }
 function closeDialog(dialog){
  if(!dialog.open)return Promise.resolve();
+ if(dialog===gallery)$('#project-video')?.pause();
  if(dialogClosures.has(dialog))return dialogClosures.get(dialog);
  const style=getComputedStyle(dialog);
  dialog.classList.add('is-closing');
@@ -129,8 +130,27 @@ async function openOrder(value='other',direction){
 $$('[data-order]').forEach(b=>b.addEventListener('click',()=>openOrder(b.dataset.order)));
 $$('[data-direction]').forEach(b=>b.addEventListener('click',()=>openOrder('other',b.dataset.direction)));
 let projectRequest=0,currentProject=null;
+function setComparison(value){
+ const input=$('#compare-range'),compare=$('#project-compare');
+ if(!input||!compare)return;
+ input.value=value;compare.style.setProperty('--reveal',`${value}%`);
+ input.setAttribute('aria-valuetext',`Исходное фото: ${value}%, новый фон: ${100-value}%`);
+}
+$('#compare-range')?.addEventListener('input',e=>{
+ setComparison(Number(e.target.value));
+ $$('[data-project-view]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.projectView==='0')));
+ $('#project-view-caption').textContent='Сдвигайте границу, чтобы сравнить исходное фото и новый фон.';
+});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)$('#project-video')?.pause();});
 function setProjectView(index){
  if(!currentProject)return;
+ if(currentProject.video){$('#project-view-caption').textContent='Включите ролик. Звук и полноэкранный просмотр — в плеере.';return;}
+ if(currentProject.before){
+  setComparison(index===1?100:index===2?0:50);
+  $$('[data-project-view]').forEach(button=>button.setAttribute('aria-pressed',String(Number(button.dataset.projectView)===index)));
+  $('#project-view-caption').textContent=index===1?'Исходное фото товара':index===2?'Фото с новым фоном':'Сдвигайте границу, чтобы сравнить исходное фото и новый фон.';
+  return;
+ }
  const detail=currentProject.story.views[index-1],img=$('#project-full');
  img.style.transformOrigin=detail?detail[1]:'50% 50%';
  img.style.transform=detail?'scale(1.85)':'none';
@@ -147,19 +167,31 @@ async function showProject(index){
  const source=`/assets/${p.image}-1920.webp`,preload=new Image();
  preload.src=source;await preload.decode();
  if(request!==projectRequest)return false;
- const img=$('#project-full'),info=$('.project-dialog-info>div',gallery);
+ const img=$('#project-full'),info=$('.project-dialog-info>div',gallery),video=$('#project-video'),compare=$('#project-compare'),frame=$('.project-frame',gallery);
+ video.pause();
  if(gallery.open){
   await Promise.all([animateUI(img,[{opacity:getComputedStyle(img).opacity},{opacity:0}],120),animateUI(info,[{opacity:1},{opacity:0}],120)]);
   if(request!==projectRequest)return false;
  }
  $('#project-title').textContent=p.title;$('#project-description').textContent=p.description;
  img.src=source;img.alt=p.alt;currentProject=p;
+ img.hidden=Boolean(p.video||p.before);video.hidden=!p.video;compare.hidden=!p.before;
+ frame.classList.toggle('is-video',Boolean(p.video));
+ video.removeAttribute('src');video.replaceChildren();video.load();
+ if(p.video){
+  video.poster=p.poster||source;video.src=p.video;video.setAttribute('aria-label',p.title);
+  if(p.captions){const track=document.createElement('track');track.kind='captions';track.srclang='ru';track.label='Русские субтитры';track.src=p.captions;video.append(track);}
+ }
+ if(p.before){$('#compare-before').src=`/assets/${p.before}-1920.webp`;$('#compare-after').src=source;setComparison(50);}
+ const transcript=$('#project-transcript');transcript.hidden=!p.transcript;transcript.textContent=p.transcript?`Озвучка: «${p.transcript}»`:'';
+ $('.project-views',gallery).hidden=Boolean(p.video);
  $('#project-task').textContent=p.story.task;
  $('#project-items').replaceChildren(...p.story.items.map(text=>{const li=document.createElement('li');li.textContent=text;return li;}));
- $$('[data-project-view]').forEach((button,i)=>{button.textContent=i===0?'Общий вид':p.story.views[i-1][0];});
+ $$('[data-project-view]').forEach((button,i)=>{button.textContent=i===0?(p.before?'Сравнить':'Общий вид'):(p.story.views[i-1]?.[0]||'');});
  setProjectView(0);
  $('#project-count').textContent=`${projectIndex+1} / ${ps.length}`;
  $('#project-order').dataset.order=p.service;
+ $('#project-order').firstChild.textContent=p.video?'Нужен похожий ролик ':p.before?'Нужно обработать фото ':'Нужен похожий дизайн ';
  if(gallery.open){
   animateUI(img,[{opacity:0},{opacity:1}],260);
   animateUI(info,[{opacity:0,transform:'translateY(5px)'},{opacity:1,transform:'none'}],260);
@@ -171,7 +203,7 @@ $('#project-order')?.addEventListener('click',e=>openOrder(e.currentTarget.datas
 function nextProject(direction){showProject(projectIndex+direction).catch(()=>{$('#project-description').textContent='Не удалось загрузить изображение. Попробуйте переключить ещё раз.';});}
 $('[data-prev]')?.addEventListener('click',()=>nextProject(-1));
 $('[data-next]')?.addEventListener('click',()=>nextProject(1));
-gallery?.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefault();nextProject(1);}if(e.key==='ArrowLeft'){e.preventDefault();nextProject(-1);}});
+gallery?.addEventListener('keydown',e=>{if(e.target.closest('video,input'))return;if(e.key==='ArrowRight'){e.preventDefault();nextProject(1);}if(e.key==='ArrowLeft'){e.preventDefault();nextProject(-1);}});
 const filterRequests=new WeakMap();
 async function filterGrid(grid,update){
  const request={};filterRequests.set(grid,request);

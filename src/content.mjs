@@ -1,5 +1,6 @@
 import { projectStories } from './project-stories.mjs';
 import { site } from './config.mjs';
+import { newServices, newProjects } from './new-offerings.mjs';
 
 export const services = [
   { id:'logo-basic', group:'identity', name:'Логотип по вашей идее', price:1600, description:'Уже знаете, какой знак хотите? Пришлите набросок, описание или примеры — они станут основой логотипа.', result:'Результат: логотип по вашим материалам.' },
@@ -15,11 +16,13 @@ export const services = [
   { id:'poster', group:'print', name:'Афиша или постер', price:2500, description:'Что будет, где и когда — главное должно читаться сразу. Оформим анонс концерта, выставки или другого события.', result:'Результат: макет афиши для вашего мероприятия.' },
   { id:'menu', group:'print', name:'Меню кафе или ресторана', price:5500, description:'Поможем гостям разобраться в блюдах и ценах. Соберём разделы, описания и оформление в стиле заведения.', result:'Результат: макет меню; формат и число страниц согласуем.' }
 ];
+services.push(...newServices);
 export const groups = [
   {id:'identity',name:'Бренд и упаковка',note:'Логотипы, этикетки и ценники'},
   {id:'digital',name:'Реклама и обложки',note:'Баннеры и обложки релизов'},
   {id:'print',name:'Печатные материалы',note:'Меню, постеры, открытки и стикеры'},
-  {id:'motion',name:'Анимация',note:'Логотипы и интерфейсная анимация'}
+  {id:'motion',name:'Анимация и видео',note:'Ролики для бизнеса, музыкальные клипы и анимация'},
+  {id:'marketplace',name:'Для маркетплейсов',note:'Карточки товаров и обработка фотографий'}
 ];
 export const directions = ['Посты для соцсетей','Логотипы','Иллюстрации','Обложки релизов','Дизайн мерча','Инфографика'];
 export const packages = [
@@ -38,7 +41,8 @@ export const projects = [
   {id:'move',title:'Move: реклама коллекции',category:'digital',label:'Рекламный баннер',image:'services/banner',alt:'Концепция рекламного баннера Move: белый кроссовок, крупный заголовок и оранжево-синий фон',description:'Товар в центре внимания, крупный заголовок и контрастная кнопка. Демонстрационный баннер для рекламы спортивной коллекции.',service:'banner'},
   {id:'everyday-stickers',title:'Стикеры для упаковки и подарков',category:'print',label:'Набор стикеров',image:'services/stickers',alt:'Концепция набора фигурных наклеек: солнце, цветок, чашка кофе, кот, молния и звезда',description:'Небольшие яркие иллюстрации с общим характером и белым контуром. Пример набора наклеек для упаковки, подарков или промоматериалов.',service:'stickers'}
 ];
-projects.forEach(project => { project.story = projectStories[project.id]; });
+projects.splice(1,0,...newProjects);
+projects.forEach(project => { project.story ||= projectStories[project.id]; });
 
 export const faqs = [
  ['Не знаю, какой дизайн нужен. С чего начать?','Расскажите, что планируете: открыть кафе, выпустить товар, объявить об акции. Укажите, где люди увидят дизайн. Помогу уточнить задачу; в форме можно выбрать «Другая задача».'],

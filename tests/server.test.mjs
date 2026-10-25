@@ -2,10 +2,28 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createServer, request } from 'node:http';
 import { randomUUID } from 'node:crypto';
+import {mkdtemp,writeFile,rm} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
 import { createHandler, deliver, parseAcknowledgement, validateRequest } from '../server.mjs';
 const sample=()=>({kind:'order',name:'Тестовый заказчик',email:'test@example.com',message:'Нужен макет этикетки для тестового продукта.',service:'label',serviceName:'Forged',quantity:2,urgent:false,consent:true,size:'A5',colors:'зелёный',references:'https://example.com',website:'',requestId:randomUUID()});
 async function withServer(options,run){const server=createServer(createHandler(options));await new Promise(r=>server.listen(0,'127.0.0.1',r));try{await run(`http://127.0.0.1:${server.address().port}`);}finally{await new Promise(r=>server.close(r));}}
 const post=(url,data,headers={})=>fetch(url+'/api/requests',{method:'POST',headers:{'Content-Type':'application/json',...headers},body:JSON.stringify(data)});
+
+test('portfolio video supports seeking, suffix ranges, HEAD and caption MIME',async()=>{
+ const root=await mkdtemp(join(tmpdir(),'sloy-media-'));
+ try{
+  await writeFile(join(root,'sample.mp4'),Buffer.from('0123456789'));
+  await writeFile(join(root,'sample.vtt'),'WEBVTT\n');
+  await withServer({root},async url=>{
+   let r=await fetch(url+'/sample.mp4',{headers:{Range:'bytes=2-5'}});assert.equal(r.status,206);assert.equal(r.headers.get('Content-Type'),'video/mp4');assert.equal(r.headers.get('Content-Range'),'bytes 2-5/10');assert.equal(await r.text(),'2345');
+   r=await fetch(url+'/sample.mp4',{headers:{Range:'bytes=-3'}});assert.equal(await r.text(),'789');
+   r=await fetch(url+'/sample.mp4',{headers:{Range:'bytes=20-'}});assert.equal(r.status,416);
+   r=await fetch(url+'/sample.mp4',{method:'HEAD'});assert.equal(r.headers.get('Content-Length'),'10');assert.equal(await r.text(),'');
+   r=await fetch(url+'/sample.vtt');assert.equal(r.headers.get('Content-Type'),'text/vtt; charset=utf-8');
+  });
+ }finally{await rm(root,{recursive:true,force:true});}
+});
 test('validation rejects absent consent, invalid email, fractional quantities and unknown services',()=>{
  assert.equal(validateRequest(sample()),null);
  for(const update of [{consent:false},{email:'wrong'},{quantity:1.5},{service:'fake'},{message:'short'},{urgent:'true'},{name:['x']}])assert.notEqual(validateRequest({...sample(),...update}),null);

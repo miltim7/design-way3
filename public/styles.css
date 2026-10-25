@@ -417,6 +417,22 @@ body:has(>main>.hero)>.header .mobile-nav{background:#21150f;color:#fff8f1;borde
 .project-dialog-top{justify-content:space-between;position:sticky;top:0;z-index:2;background:#fff;border-bottom:1px solid var(--line);padding:12px 24px}
 .project-dialog-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);align-items:start}
 .project-media{padding:24px;min-width:0;background:var(--warm-paper);align-self:stretch}
+.project-frame{position:relative}
+.project-frame.is-video{aspect-ratio:16/9;background:#171d24}
+#project-video{display:block;width:100%;height:100%;object-fit:contain}
+.project-transcript{font-size:13px;line-height:1.6;color:#665346;margin-top:16px}
+.project-compare{position:relative;width:100%;height:100%;--reveal:50%}
+.project-compare img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#compare-before{clip-path:inset(0 calc(100% - var(--reveal)) 0 0)}
+.project-compare::after{content:"";position:absolute;inset-block:0;left:var(--reveal);width:2px;background:#fff8f1;pointer-events:none}
+.compare-label{position:absolute;top:14px;padding:6px 10px;background:#4f3428;color:#fff8f1;font-size:12px;border-radius:5px;pointer-events:none}
+.compare-label-before{left:14px}.compare-label-after{right:14px}
+#compare-range{position:absolute;z-index:2;inset:0;appearance:none;-webkit-appearance:none;width:100%;height:100%;margin:0;padding:0;border:0;border-radius:0;background:transparent;cursor:ew-resize;touch-action:pan-y}
+#compare-range::-webkit-slider-thumb{appearance:none;width:36px;height:36px;border:4px solid #fff8f1;border-radius:50%;background:#753b29;box-shadow:0 2px 10px #2d1c1540}
+#compare-range::-moz-range-thumb{width:28px;height:28px;border:4px solid #fff8f1;border-radius:50%;background:#753b29;box-shadow:0 2px 10px #2d1c1540}
+#compare-range:focus-visible{outline:3px solid #cf3d1b;outline-offset:-3px}
+.project-media-label{position:absolute;left:16px;bottom:16px;display:flex;align-items:center;gap:8px;padding:10px 13px;background:#fff8f1;color:#4f3428;font-size:12px;font-weight:600;border-radius:6px;pointer-events:none}
+.catalog-section .service-card-bottom strong.service-quote{font-size:16px;line-height:1.4}
 .project-frame{overflow:hidden;border-radius:10px;background:#e8dfd3;aspect-ratio:3/2}
 #project-full{height:100%;max-height:none;object-fit:cover;transition:transform 450ms cubic-bezier(.16,1,.3,1),transform-origin 450ms cubic-bezier(.16,1,.3,1)}
 .project-views{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}

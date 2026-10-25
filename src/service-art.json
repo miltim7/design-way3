@@ -64,5 +64,25 @@
     "prompt": "Use case: product-mockup. Create one landscape 3:2 website service thumbnail clearly depicting RESTAURANT MENU DESIGN. A two-page open cream restaurant menu resting on a warm light wood cafe table, near overhead view. Exact title 'MENU', organized dark charcoal dish-name typesetting rows and a right-aligned price column, delicate orange section dividers, two small tasteful botanical illustrations. A folded forest-green cover beneath and a single metal fork beside it. The menu layout is the main subject and visibly resembles a usable restaurant menu, no food photography, no long readable copy, no branding, no watermark. Premium realistic stationery photo, soft natural light, fictional demonstration.",
     "image": "menu-ru",
     "localizationPrompt": "docs/russian-examples-prompts.md#menu"
+  },
+  {
+    "id": "business-video",
+    "alt": "Птица-курьер на велосипеде: кадр анимационного ролика с русскими титрами",
+    "provenance": "docs/expanded-portfolio-assets.md"
+  },
+  {
+    "id": "music-video",
+    "alt": "Орбиты и световые частицы: кадр музыкальной анимации",
+    "provenance": "docs/expanded-portfolio-assets.md"
+  },
+  {
+    "id": "marketplace-card",
+    "alt": "Карточки настольной лампы с русскими надписями",
+    "provenance": "docs/expanded-portfolio-assets.md"
+  },
+  {
+    "id": "product-background",
+    "alt": "Зелёная керамическая кружка на чистом студийном фоне",
+    "provenance": "docs/expanded-portfolio-assets.md"
   }
 ]
