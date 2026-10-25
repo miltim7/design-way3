@@ -70,7 +70,7 @@ export function createHandler({root=resolve('dist'),ready=site.legal.ready&&Obje
     const validation=validateRequest(data);if(validation)return json(400,{ok:false,message:validation});
     if(data.website)return json(400,{ok:false,message:'Не удалось проверить заявку.'});
     // Missing launch details never result in a fictitious success or an external transmission.
-    if(!ready)return json(503,{ok:false,message:'Приём заявок ещё не открыт. Данные не переданы исполнителям. Попробуйте после запуска сервиса.'});
+    if(!ready)return json(503,{ok:false,message:'Не удалось отправить заявку. Повторите попытку позже.'});
     const now=Date.now();for(const [k,v] of limits)if(v.reset<now)limits.delete(k);for(const [k,v] of requests)if(v.expires<now)requests.delete(k);
     const ip=req.socket.remoteAddress||'unknown';const counter=limits.get(ip)||{count:0,reset:now+600000};
     const payload={kind:data.kind,name:data.name.trim(),email:data.email.trim(),service:data.service,serviceName:serviceMap.get(data.service)||'Обсуждение задачи',message:data.message.trim(),quantity:data.quantity,urgent:data.urgent,size:(data.size||'').trim(),colors:(data.colors||'').trim(),references:(data.references||'').trim(),consent:true,requestId:data.requestId};

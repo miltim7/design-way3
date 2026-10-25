@@ -32,7 +32,7 @@ export function homepageSections({ esc, money, arrow, plus, picture, serviceArt 
     <div class="collaboration-layout"><div class="coordinator-copy">
       ${site.coordinator.photo?`<img class="coordinator-photo" src="${esc(site.coordinator.photo)}" alt="${esc(site.coordinator.name)} — координатор проекта" width="160" height="160" loading="lazy">`:''}
       <h3>Я — ${esc(site.coordinator.name)}.<br> Буду с вами на связи.</h3><p class="coordinator-role">${esc(site.coordinator.role)}</p>
-      <p>Помогу превратить пожелания в понятную задачу, соберу материалы и организую работу с дизайнером. Со мной можно обсудить макет, уточнить детали и передать правки.</p><button class="text-link" data-order="other">Рассказать Анне о задаче ${arrow}</button>
+      <p>Помогу превратить пожелания в понятную задачу, соберу материалы и организую работу с дизайнером. Со мной можно обсудить макет, уточнить детали и передать правки.</p><button class="text-link" data-order="other">Рассказать Николаю о задаче ${arrow}</button>
     </div><ol class="conversation-steps">
       <li><span class="conversation-number" aria-hidden="true">01</span><div><h3>Сначала — ваша идея</h3><p>Расскажите о бизнесе, событии или проекте. Можно своими словами, с наброском или ссылкой на то, что нравится.</p></div></li>
       <li><span class="conversation-number" aria-hidden="true">02</span><div><h3>Потом — понятный план</h3><p>Соберём материалы и определим результат. До начала работы согласуем состав макетов, стоимость, сроки и порядок правок.</p></div></li>

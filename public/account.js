@@ -45,7 +45,7 @@
       throw Error('Не удалось связаться с сервером. Проверьте соединение и повторите.');
     }
     if (response.status === 404 || response.status === 405) {
-      throw Object.assign(Error('Вход и регистрация пока недоступны. Попробуйте позже.'), { status: response.status, unavailable: true });
+      throw Object.assign(Error('Не удалось выполнить запрос. Повторите попытку позже.'), { status: response.status, unavailable: true });
     }
     let result;
     try { result = await response.json(); } catch { throw Error('Не удалось прочитать ответ сервера. Повторите попытку.'); }
