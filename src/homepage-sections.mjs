@@ -20,7 +20,7 @@ export function homepageSections({ esc, money, arrow, plus, picture, serviceArt 
     </div>
     <div class="catalog-content"><div class="service-grid" id="service-grid">${services.map(s=>{
       const art=serviceArt.find(a=>a.id===s.id);
-      return `<article class="service-card" data-service-group="${s.group}"><img class="service-art" src="/assets/services/${s.id}-640.webp" width="960" height="640" alt="${esc(art.alt)}" loading="lazy" decoding="async"><div class="service-card-content"><h3>${esc(s.name)}</h3><p>${esc(s.description)}</p><p class="service-result">${esc(s.result)}</p><div class="service-card-bottom"><span>от <strong>${money(s.price)} ₽</strong></span><button class="order-link" data-order="${s.id}">Обсудить<span class="sr-only">: ${esc(s.name)}</span>${arrow}</button></div></div></article>`;
+      return `<article class="service-card" data-service-group="${s.group}"><img class="service-art" src="/assets/services/${art.image || s.id}-640.webp" width="960" height="640" alt="${esc(art.alt)}" loading="lazy" decoding="async"><div class="service-card-content"><h3>${esc(s.name)}</h3><p>${esc(s.description)}</p><p class="service-result">${esc(s.result)}</p><div class="service-card-bottom"><span>от <strong>${money(s.price)} ₽</strong></span><button class="order-link" data-order="${s.id}">Обсудить<span class="sr-only">: ${esc(s.name)}</span>${arrow}</button></div></div></article>`;
     }).join('')}</div>
     <button class="button button-outline service-more" data-service-more aria-controls="service-grid" aria-expanded="false" hidden>Показать все ${services.length} услуг</button><p id="service-filter-status" class="sr-only" role="status"></p>
     <p class="catalog-art-note">Изображения — примеры оформления для каждой услуги.</p>
