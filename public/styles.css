@@ -435,11 +435,6 @@ body:has(>main>.hero)>.header .mobile-nav{background:#21150f;color:#fff8f1;borde
 .catalog-section .service-card-bottom strong.service-quote{font-size:16px;line-height:1.4}
 .project-frame{overflow:hidden;border-radius:10px;background:#e8dfd3;aspect-ratio:3/2}
 #project-full{height:100%;max-height:none;object-fit:cover;transition:transform 450ms cubic-bezier(.16,1,.3,1),transform-origin 450ms cubic-bezier(.16,1,.3,1)}
-.project-views{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
-.project-views button{min-height:44px;padding:10px 13px;border:1px solid #b9a899;border-radius:8px;font-size:13px;background:transparent;color:#4f3428}
-.project-views button:hover{background:#e6d8c8}
-.project-views button[aria-pressed=true]{background:#4f3428;border-color:#4f3428;color:#fff8f1}
-.project-view-caption{font-size:13px;color:#665346;margin-top:12px}
 .project-dialog-info{display:block;padding:28px;min-width:0}
 .project-dialog-info h2{font-size:28px;line-height:1.2;text-wrap:initial}
 .project-story{margin:24px 0}
@@ -463,8 +458,6 @@ body:has(>main>.hero)>.header .mobile-nav{background:#21150f;color:#fff8f1;borde
  .project-media{padding:16px}
  .project-dialog-info{padding:20px}
  .project-dialog-info h2{font-size:25px}
- .project-views{gap:6px}
- .project-views button{font-size:12px;padding:8px 10px}
 }
 @media(prefers-reduced-motion:reduce){#project-full{transition:none}}
 
