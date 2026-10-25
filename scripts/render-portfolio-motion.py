@@ -109,12 +109,13 @@ def render(name,fn,audio_path,poster,video_name=None):
  p=subprocess.Popen(cmd,stdin=subprocess.PIPE,stderr=subprocess.DEVNULL)
  for n in range(FPS*DURATION):p.stdin.write(fn(n/FPS).tobytes())
  p.stdin.close();assert p.wait()==0
- subprocess.run([FF,'-y','-i',str(silent),'-i',str(audio_path),'-c:v','copy','-c:a','aac','-b:a','128k','-af','apad','-t',str(DURATION),'-movflags','+faststart',str(OUT/f'{video_name or name}.mp4')],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+ audio_args=['-i',str(audio_path),'-c:v','copy','-c:a','aac','-b:a','128k','-af','apad'] if audio_path else ['-c:v','copy','-an']
+ subprocess.run([FF,'-y','-i',str(silent),*audio_args,'-t',str(DURATION),'-movflags','+faststart',str(OUT/f'{video_name or name}.mp4')],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
  cover=Image.new('RGB',(1536,1024),'#f5eee5' if name=='business-story' else '#171d24')
  cover.paste(fn(2.8).resize((1536,864),Image.Resampling.LANCZOS),(0,80))
  cover.save(ROOT/'assets-original/services'/f'{poster}.png')
  fn(2.8).save(OUT/f'{name}-poster.jpg',quality=90)
- print(f'Rendered {name}: {DURATION}s, H264/AAC, 1280x720',flush=True)
+ print(f'Rendered {name}: {DURATION}s, H264, 1280x720',flush=True)
 
-render('business-story',business,ROOT/'assets-original/audio/business-narration-neural.wav','business-video',video_name='business-story-voice-v2')
+render('business-story',business,None,'business-video',video_name='business-story-silent')
 render('music-film',music,music_path,'music-video')
