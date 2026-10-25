@@ -1,7 +1,7 @@
 // All unconfirmed identity and launch details live here. No old business data is assumed.
 export const site = {
   brand: 'слой',
-  coordinator: { name: 'Николай', fullName: 'Николай Парфенков', role: 'Координатор вашего проекта', photo: null },
+  coordinator: { name: 'Николай', fullName: 'Николай Парфенков', role: 'Графический дизайнер', photo: null },
   brandConfirmed: false,
   description: 'Графический дизайн для бизнеса',
   domain: null,

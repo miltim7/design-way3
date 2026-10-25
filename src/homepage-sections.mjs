@@ -30,13 +30,13 @@ export function homepageSections({ esc, money, arrow, plus, picture, serviceArt 
   const process = `<section class="collaboration-section section" id="process" aria-labelledby="process-title"><div class="wrap">
     <div class="collaboration-heading"><h2 id="process-title">За дизайном —<br> живой разговор.</h2><p>Не нужно разбираться в форматах и писать идеальное техническое задание. Начнём с вашей истории.</p></div>
     <div class="collaboration-layout"><div class="coordinator-copy">
-      ${site.coordinator.photo?`<img class="coordinator-photo" src="${esc(site.coordinator.photo)}" alt="${esc(site.coordinator.name)} — координатор проекта" width="160" height="160" loading="lazy">`:''}
+      ${site.coordinator.photo?`<img class="coordinator-photo" src="${esc(site.coordinator.photo)}" alt="${esc(site.coordinator.name)} — графический дизайнер" width="160" height="160" loading="lazy">`:''}
       <h3>Я — ${esc(site.coordinator.name)}.<br> Буду с вами на связи.</h3><p class="coordinator-role">${esc(site.coordinator.role)}</p>
-      <p>Помогу превратить пожелания в понятную задачу, соберу материалы и организую работу с дизайнером. Со мной можно обсудить макет, уточнить детали и передать правки.</p><button class="text-link" data-order="other">Рассказать Николаю о задаче ${arrow}</button>
+      <p>Обсужу с вами идею, разработаю дизайн и подготовлю готовые файлы. Со мной можно напрямую обсудить макет, уточнить детали и внести правки.</p><button class="text-link" data-order="other">Рассказать Николаю о задаче ${arrow}</button>
     </div><ol class="conversation-steps">
       <li><span class="conversation-number" aria-hidden="true">01</span><div><h3>Сначала — ваша идея</h3><p>Расскажите о бизнесе, событии или проекте. Можно своими словами, с наброском или ссылкой на то, что нравится.</p></div></li>
-      <li><span class="conversation-number" aria-hidden="true">02</span><div><h3>Потом — понятный план</h3><p>Соберём материалы и определим результат. До начала работы согласуем состав макетов, стоимость, сроки и порядок правок.</p></div></li>
-      <li><span class="conversation-number" aria-hidden="true">03</span><div><h3>Вместе — до готовых файлов</h3><p>Дизайнер подготовит макет, вы дадите обратную связь. После согласования передадим файлы для печати или публикации.</p></div></li>
+      <li><span class="conversation-number" aria-hidden="true">02</span><div><h3>Потом — понятный план</h3><p>Вместе определим, какие материалы нужны и что вы получите. До начала работы согласуем состав макетов, стоимость, сроки и порядок правок.</p></div></li>
+      <li><span class="conversation-number" aria-hidden="true">03</span><div><h3>Вместе — до готовых файлов</h3><p>Подготовлю макет, вы поделитесь впечатлениями и пожеланиями. Внесу согласованные правки и передам файлы для печати или публикации.</p></div></li>
     </ol></div>
   </div></section>`;
 
