@@ -4,9 +4,9 @@ Mode: Read for /about/, Experience for /portfolio/.
 
 Established world: inherit DESIGN.md. Terracotta, cream, dark brown, local Onest, open rows and restrained controls. This is a local extension, with no replacement visual identity or generated portrait.
 
-FIRST VIEWPORT: /about/ leads with Nikolay Parfenkov's full name and profession, alongside a first-person introduction based on confirmed facts. /portfolio/ leads with an editorial title, a concise explanation of the examples and category filters. Both have direct navigation back to services and requests.
+FIRST VIEWPORT: /about/ pairs Nikolay Parfenkov's full name, profession, short introduction and actions with a warm still-life illustration. The image is illustrative, not a claimed photo of the designer or his studio; a supplied real portrait replaces it through site.coordinator.photo. Three compact line icons describe direct communication, his own design work and file preparation. On mobile the image follows the name and profession, before the introduction and actions. /portfolio/ leads with an editorial title, a concise explanation of the examples and category filters. Both have direct navigation back to services and requests.
 
-Structure: designer introduction → design purposes → direct collaboration → request. Portfolio: filters → illustrated task/solution/materials rows → request. Desktop rows alternate image and text; mobile keeps the image before its explanation.
+Structure: illustrated designer introduction → direct conversation → design purposes with small examples → direct collaboration → request. Portfolio: filters → illustrated task/solution/materials rows → request. Desktop portfolio rows alternate image and text; mobile keeps the image before its explanation.
 
 Interaction: existing project viewer, before/after control, muted video previews, native full video playback, filters and selected-service order form. The same content module powers the homepage and portfolio. Existing smooth page/filter/dialog transitions and reduced-motion behavior are retained.
 
