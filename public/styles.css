@@ -686,3 +686,84 @@ body:has(>main>.hero)>.header .mobile-nav{background:#21150f;color:#fff8f1;borde
 @media(prefers-reduced-motion:reduce){
  .project-image:hover img,.hero-image:hover img{transform:none}
 }
+
+/* Designer and portfolio extend the same paper, ink and terracotta palette. */
+.header a[aria-current=page]{text-decoration:underline;text-underline-offset:7px;text-decoration-thickness:1px}
+.work-gallery .project-caption .project-purpose{margin-top:12px;max-width:55ch;line-height:1.65;color:#f5dfd0;font-size:14px}
+.coordinator-copy>.text-link{margin-top:24px}
+.back-link{font-size:13px;min-height:44px}
+.back-link svg{transform:rotate(180deg);width:18px}
+.designer-page{background:#f5eee5;color:#2d1c15}
+.designer-intro{padding:36px 0 88px}
+.designer-intro-layout{display:grid;grid-template-columns:1fr 1fr;gap:100px;margin-top:44px}
+.designer-intro h1{font-size:clamp(48px,5.6vw,80px);line-height:1.04;letter-spacing:-.035em;max-width:11ch;overflow-wrap:normal;text-wrap:balance}
+.designer-profession{font-size:20px;color:#753b29;margin-top:24px}
+.designer-biography>p{font-size:18px;line-height:1.75;max-width:62ch;margin-bottom:20px}
+.designer-biography>.text-link{margin-top:12px;color:#753b29;font-size:16px;min-height:44px}
+.designer-portrait{width:100%;max-width:320px;aspect-ratio:4/5;object-fit:cover;margin-bottom:28px;border-radius:2px}
+.designer-split{display:grid;grid-template-columns:1fr 1fr;gap:100px}
+.designer-split h2{font-size:clamp(32px,3.4vw,48px);line-height:1.15;letter-spacing:-.03em}
+.designer-practice{background:#fffcf8}
+.designer-practice-list>div{padding:28px 0;border-top:1px solid #d5c4b5}
+.designer-practice-list>div:first-child{padding-top:0;border-top:0}
+.designer-practice-list>div:last-child{padding-bottom:0}
+.designer-practice-list h3{font-size:24px;line-height:1.3;letter-spacing:-.02em}
+.designer-practice-list p{font-size:16px;line-height:1.75;margin:12px 0;color:#68584e}
+.designer-practice-list .text-link{font-size:14px;color:#753b29;min-height:44px}
+.designer-approach{background:#753b29;color:#fff8f1}
+.designer-approach-copy>p{font-size:16px;line-height:1.8;color:#f5dfd0;margin-bottom:20px;max-width:62ch}
+.designer-approach-copy>.designer-lead{font-size:23px;line-height:1.55;color:#fff8f1}
+.designer-reading{display:flex;flex-wrap:wrap;gap:12px 28px;margin-top:28px}
+.designer-reading a{display:flex;align-items:center;gap:12px;min-height:44px;font-size:14px;text-decoration:underline;text-underline-offset:4px}
+.designer-reading svg{width:18px}
+.designer-approach :focus-visible{outline-color:#fff8f1}
+.designer-close h2{font-size:clamp(34px,4vw,52px);letter-spacing:-.03em}
+.designer-close p{margin:16px 0 28px;font-size:18px;max-width:55ch}
+.designer-close .button-dark{background:#753b29;color:#fff8f1}
+.designer-close .text-link{margin:12px 0 0 28px;font-size:14px;min-height:44px}
+.portfolio-page .portfolio-gallery{padding-top:64px}
+.portfolio-gallery .gallery-heading h1{font-size:clamp(48px,5.5vw,76px);line-height:1.07;letter-spacing:-.035em}
+.work-gallery.portfolio-gallery .project-grid{grid-template-columns:1fr;gap:0}
+.work-gallery.portfolio-gallery .project-grid .project{grid-column:1/-1!important;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:64px;align-items:center;padding:48px 0!important;border-top:1px solid #a26d57}
+.portfolio-gallery .project:nth-child(even) .project-caption{order:-1}
+.work-gallery.portfolio-gallery .project-caption{padding:0}
+.work-gallery.portfolio-gallery .project-grid .project-caption h3{font-size:clamp(24px,2.3vw,32px);line-height:1.25;letter-spacing:-.025em}
+.work-gallery.portfolio-gallery .project-caption>p{color:#f5dfd0;margin-top:10px;font-size:13px}
+.portfolio-story{margin-top:28px}
+.portfolio-story dt{font-size:12px;color:#f5dfd0;margin-top:18px}
+.portfolio-story dd{margin:5px 0 0;font-size:15px;line-height:1.75;color:#fff8f1;max-width:60ch}
+.portfolio-open{margin-top:20px;font-size:14px;min-height:44px;text-decoration:underline;text-underline-offset:5px}
+.portfolio-gallery .gallery-end{margin-top:8px}
+@media(max-width:1050px){
+ .designer-intro-layout,.designer-split{gap:48px}
+ .work-gallery.portfolio-gallery .project-grid .project{gap:36px}
+}
+@media(max-width:800px){
+ .designer-intro{padding-bottom:64px}
+ .designer-intro-layout,.designer-split{grid-template-columns:1fr;gap:32px}
+ .designer-intro h1{max-width:14ch}
+ .designer-biography>p{max-width:68ch}
+ .designer-split h2 br{display:none}
+ .designer-practice-list{max-width:65ch}
+ .designer-approach-copy{max-width:65ch}
+ .work-gallery.portfolio-gallery .project-grid .project{grid-template-columns:1fr;gap:24px;padding:36px 0!important}
+ .portfolio-gallery .project:nth-child(even) .project-caption{order:0}
+ .portfolio-story{margin-top:20px}
+}
+@media(max-width:600px){
+ .designer-intro{padding:24px 0 48px}
+ .designer-intro-layout{margin-top:28px;gap:28px}
+ .designer-intro h1{font-size:clamp(40px,10vw,56px);max-width:12ch}
+ .designer-profession{margin-top:16px;font-size:17px}
+ .designer-biography>p{font-size:16px;line-height:1.75;margin-bottom:16px}
+ .designer-split{gap:28px}
+ .designer-practice-list h3{font-size:22px}
+ .designer-practice-list p{font-size:15px}
+ .designer-approach-copy>.designer-lead{font-size:21px}
+ .designer-close p{font-size:16px}
+ .designer-close .text-link{display:flex;width:fit-content;margin:18px 0 0}
+ .portfolio-page .portfolio-gallery{padding-top:40px}
+ .portfolio-gallery .gallery-heading h1{font-size:44px}
+ .work-gallery.portfolio-gallery .project-grid .project-caption h3{font-size:25px}
+ .portfolio-story dd{font-size:14px}
+}

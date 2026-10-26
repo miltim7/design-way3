@@ -199,7 +199,7 @@ $$('[data-filter]').forEach(b=>b.addEventListener('click',()=>{
  filterGrid($('.project-grid'),()=>{
   let visible=0;$$('.project').forEach(p=>{p.hidden=activeFilter!=='all'&&p.dataset.category!==activeFilter;if(!p.hidden)visible++;});
   $('.project-grid').classList.toggle('is-filtered',activeFilter!=='all');
-  $('#filter-status').textContent=`Показано концепций: ${visible}`;
+  $('#filter-status').textContent=`Показано примеров: ${visible}`;
  });
 }));
 
