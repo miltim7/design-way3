@@ -2,6 +2,7 @@ import { projectStories } from './project-stories.mjs';
 import { site } from './config.mjs';
 import { newServices, newProjects } from './new-offerings.mjs';
 import { clientProjects } from './client-projects.mjs';
+import { additionalProjects } from './additional-projects.mjs';
 
 export const services = [
   { id:'logo-basic', group:'identity', name:'Логотип по вашей идее', price:1600, description:'Уже знаете, какой знак хотите? Пришлите набросок, описание или примеры — они станут основой логотипа.', result:'Результат: логотип по вашим материалам.' },
@@ -43,6 +44,8 @@ export const projects = [
   {id:'everyday-stickers',title:'Стикеры для упаковки и подарков',category:'print',label:'Набор стикеров',image:'services/stickers',alt:'Концепция набора фигурных наклеек: солнце, цветок, чашка кофе, кот, молния и звезда',description:'Небольшие яркие иллюстрации с общим характером и белым контуром. Пример набора наклеек для упаковки, подарков или промоматериалов.',service:'stickers'}
 ];
 projects.splice(1,0,...newProjects);
+// New demonstrations are interleaved with the existing examples.
+for(const [index,project] of additionalProjects.entries())projects.splice(1+index*2,0,project);
 for(const p of clientProjects){
   if(p.kind!=='client'||!p.id||!p.image||!p.story?.task||!p.description||!p.story?.items?.length)throw Error('Incomplete approved portfolio project');
 }

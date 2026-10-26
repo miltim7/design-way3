@@ -446,7 +446,7 @@ body:has(>main>.hero)>.header .mobile-nav{background:#21150f;color:#fff8f1;borde
 .catalog-section .service-preview-wrap .video-preview{object-position:75% center}
 .catalog-section .service-card-bottom strong.service-quote{font-size:16px;line-height:1.4}
 .project-frame{overflow:hidden;border-radius:10px;background:#e8dfd3;aspect-ratio:3/2}
-#project-full{height:100%;max-height:none;object-fit:cover;transition:transform 450ms cubic-bezier(.16,1,.3,1),transform-origin 450ms cubic-bezier(.16,1,.3,1)}
+#project-full{height:100%;max-height:none;object-fit:contain;transition:transform 450ms cubic-bezier(.16,1,.3,1),transform-origin 450ms cubic-bezier(.16,1,.3,1)}
 .project-dialog-info{display:block;padding:28px;min-width:0}
 .project-dialog-info h2{font-size:28px;line-height:1.2;text-wrap:initial}
 .project-story{margin:24px 0}
@@ -540,6 +540,8 @@ body:has(>main>.hero)>.header .mobile-nav{background:#21150f;color:#fff8f1;borde
 .work-gallery .project-grid .project-image{height:auto;border-radius:2px;background:#5c2b1b}
 .work-gallery .project-grid .project-image picture{position:static}
 .work-gallery .project-grid .project-image img{height:auto;aspect-ratio:3/2;object-fit:cover}
+.work-gallery .project-grid .project-contain .project-image{background:#edf0f2}
+.work-gallery .project-grid .project-contain .project-image img{object-fit:contain}
 .work-gallery .project-caption{display:block;padding-top:16px}
 .work-gallery .project-grid .project-caption h3{font-size:20px;line-height:1.35}
 .work-gallery .project-caption p{margin-top:5px;font-size:13px}
