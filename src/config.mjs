@@ -1,7 +1,7 @@
 // Project identity, contact details and service settings.
 export const site = {
   brand: 'слой',
-  coordinator: { name: 'Николай', fullName: 'Николай Парфенков', role: 'Графический дизайнер', photo: null },
+  coordinator: { name: 'Николай', fullName: 'Николай Парфенков', role: 'Графический дизайнер', photo: '/assets/designer/nikolay-853.webp', photoSrcset:'/assets/designer/nikolay-320.webp 320w, /assets/designer/nikolay-640.webp 640w, /assets/designer/nikolay-853.webp 853w' },
   brandConfirmed: false,
   description: 'Графический дизайн для бизнеса',
   domain: null,

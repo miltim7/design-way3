@@ -477,7 +477,7 @@ body:has(>main>.hero)>.header .mobile-nav{background:#21150f;color:#fff8f1;borde
 .coordinator-layout{display:grid;grid-template-columns:.85fr 1.15fr;gap:80px;align-items:start}
 .coordinator-identity h2{font-size:40px;max-width:15ch;text-wrap:initial}
 .coordinator-role{margin-top:20px;color:var(--terracotta);font-size:15px}
-.coordinator-photo{width:128px;height:128px;object-fit:cover;border-radius:50%;margin-bottom:24px}
+.coordinator-photo{width:100%;height:320px;object-fit:cover;object-position:50% 22%;border-radius:2px;margin-bottom:24px}
 .coordinator-copy{max-width:60ch}
 .coordinator-copy .coordinator-lead{font-size:24px;line-height:1.45;letter-spacing:-.02em;color:var(--ink);margin-top:0}
 .coordinator-copy p{font-size:16px;color:var(--muted);margin-top:20px}
@@ -542,6 +542,28 @@ body:has(>main>.hero)>.header .mobile-nav{background:#21150f;color:#fff8f1;borde
 .work-gallery .project-grid .project-image img{height:auto;aspect-ratio:3/2;object-fit:cover}
 .work-gallery .project-grid .project-contain .project-image{background:#edf0f2}
 .work-gallery .project-grid .project-contain .project-image img{object-fit:contain}
+.portfolio-origins{display:inline-flex;gap:6px;padding:5px;border:1px solid #a26d57;border-radius:10px;margin-bottom:26px;background:#6b3322}
+.portfolio-origins button{min-height:46px;padding:10px 18px;color:#fff8f1;border-radius:6px;font-size:14px;font-weight:600;transition:background-color 220ms ease,color 220ms ease}
+.portfolio-origins button span{font-size:12px;font-weight:400;margin-left:10px}
+.portfolio-origins button[aria-pressed=true]{background:#fff8f1;color:#502b1f}
+.portfolio-origins button:hover{background:#8a5038}
+.portfolio-origins button[aria-pressed=true]:hover{background:#f5eee5}
+.portfolio-origins :focus-visible{outline-color:#fff8f1}
+.project-sheets{margin-top:18px}
+.project-sheet-thumbs{display:flex;gap:8px;max-width:100%;overflow-x:auto;padding:4px;scrollbar-width:thin;scrollbar-color:#b99b87 #f5eee5}
+.project-sheet-button{flex:0 0 64px;min-height:48px;padding:2px;background:#fff;border:2px solid transparent;border-radius:5px}
+.project-sheet-button img{width:56px;height:42px;object-fit:contain}
+.project-sheet-button[aria-pressed=true]{border-color:#753b29}
+.project-sheet-button:hover{border-color:#b99b87}
+.project-sheet-status{font-size:12px;color:#68584e;line-height:1.6;margin:10px 4px 0}
+@media(max-width:600px){
+ .portfolio-origins{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;max-width:100%;margin-bottom:22px}
+ .portfolio-origins button{font-size:13px;padding-inline:10px;min-width:0}
+ .portfolio-origins button span{font-size:11px;margin-left:6px}
+ .coordinator-photo{height:300px}
+ .project-sheets{margin-top:14px}
+}
+@media(max-width:360px){.portfolio-origins button{font-size:12px;padding-inline:7px}.portfolio-origins button span{margin-left:4px}}
 .work-gallery .project-caption{display:block;padding-top:16px}
 .work-gallery .project-grid .project-caption h3{font-size:20px;line-height:1.35}
 .work-gallery .project-caption p{margin-top:5px;font-size:13px}
@@ -707,7 +729,7 @@ body:has(>main>.hero)>.header .mobile-nav{background:#21150f;color:#fff8f1;borde
 .designer-work-link{display:flex;width:fit-content;margin-top:16px;font-size:14px;color:#753b29;min-height:44px}
 .designer-cover{margin:0;min-width:0}
 .designer-cover img{width:100%;height:480px;object-fit:cover;object-position:78% center;border-radius:2px}
-.designer-cover.has-portrait img{object-position:center}
+.designer-cover.has-portrait img{object-position:50% 22%}
 .designer-cover figcaption{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;margin-top:14px;color:#68584e;font-size:11px;line-height:1.6}
 .designer-cover-detail{font-style:italic}
 .designer-responsibilities{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:48px;border-top:1px solid #d5c4b5;border-bottom:1px solid #d5c4b5;padding:26px 0}

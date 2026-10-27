@@ -1,0 +1,177 @@
+[
+  {
+    "name": "festival-01",
+    "source": "festival-01.jpg",
+    "receivedFile": "photo_2026-01-20_14-52-41.jpg",
+    "width": 1497,
+    "height": 801
+  },
+  {
+    "name": "festival-02",
+    "source": "festival-02.jpg",
+    "receivedFile": "photo_2026-01-20_14-56-27.jpg",
+    "width": 1184,
+    "height": 665
+  },
+  {
+    "name": "festival-03",
+    "source": "festival-03.jpg",
+    "receivedFile": "photo_2026-01-20_14-57-15.jpg",
+    "width": 1179,
+    "height": 665
+  },
+  {
+    "name": "festival-04",
+    "source": "festival-04.jpg",
+    "receivedFile": "photo_2026-01-20_14-57-56.jpg",
+    "width": 1187,
+    "height": 667
+  },
+  {
+    "name": "festival-05",
+    "source": "festival-05.jpg",
+    "receivedFile": "photo_2026-01-20_14-58-23.jpg",
+    "width": 1191,
+    "height": 665
+  },
+  {
+    "name": "festival-06",
+    "source": "festival-06.jpg",
+    "receivedFile": "photo_2026-01-20_14-58-42.jpg",
+    "width": 1183,
+    "height": 658
+  },
+  {
+    "name": "festival-07",
+    "source": "festival-07.jpg",
+    "receivedFile": "photo_2026-01-20_14-59-03.jpg",
+    "width": 1183,
+    "height": 669
+  },
+  {
+    "name": "festival-08",
+    "source": "festival-08.jpg",
+    "receivedFile": "photo_2026-01-20_15-10-56.jpg",
+    "width": 1192,
+    "height": 670
+  },
+  {
+    "name": "festival-09",
+    "source": "festival-09.jpg",
+    "receivedFile": "photo_2026-01-20_15-21-07.jpg",
+    "width": 1382,
+    "height": 901
+  },
+  {
+    "name": "festival-10",
+    "source": "festival-10.jpg",
+    "receivedFile": "photo_2026-01-20_15-21-50.jpg",
+    "width": 1716,
+    "height": 841
+  },
+  {
+    "name": "education-ai-01",
+    "source": "education-ai-01.jpg",
+    "receivedFile": "photo_2026-01-30_20-03-52.jpg",
+    "width": 986,
+    "height": 692
+  },
+  {
+    "name": "education-ai-02",
+    "source": "education-ai-02.jpg",
+    "receivedFile": "photo_2026-01-30_20-02-21.jpg",
+    "width": 979,
+    "height": 688
+  },
+  {
+    "name": "education-ai-03",
+    "source": "education-ai-03.jpg",
+    "receivedFile": "photo_2026-01-30_20-02-34.jpg",
+    "width": 985,
+    "height": 693
+  },
+  {
+    "name": "education-ai-04",
+    "source": "education-ai-04.jpg",
+    "receivedFile": "photo_2026-01-30_20-02-45.jpg",
+    "width": 985,
+    "height": 689
+  },
+  {
+    "name": "education-ai-05",
+    "source": "education-ai-05.jpg",
+    "receivedFile": "photo_2026-01-30_20-03-03.jpg",
+    "width": 984,
+    "height": 692
+  },
+  {
+    "name": "education-ai-06",
+    "source": "education-ai-06.jpg",
+    "receivedFile": "photo_2026-01-30_20-03-18.jpg",
+    "width": 985,
+    "height": 695
+  },
+  {
+    "name": "education-ai-07",
+    "source": "education-ai-07.jpg",
+    "receivedFile": "photo_2026-01-30_20-03-32.jpg",
+    "width": 985,
+    "height": 694
+  },
+  {
+    "name": "japanese-cars",
+    "source": "japanese-cars.png",
+    "receivedFile": "Журнал с яаонскими автомобилями.png",
+    "width": 1890,
+    "height": 1417
+  },
+  {
+    "name": "happy-cake",
+    "source": "happy-cake.jpg",
+    "receivedFile": "photo_2026-10-25_21-22-12.jpg",
+    "width": 1162,
+    "height": 747
+  },
+  {
+    "name": "onar-packaging",
+    "source": "onar-packaging.png",
+    "receivedFile": "Снимок экрана 2025-06-23 130525.png",
+    "width": 754,
+    "height": 569
+  },
+  {
+    "name": "retro-style",
+    "source": "retro-style.jpg",
+    "receivedFile": "photo_2026-10-25_21-20-08.jpg",
+    "width": 952,
+    "height": 712
+  },
+  {
+    "name": "autoservice",
+    "source": "autoservice.png",
+    "receivedFile": "Мокап сайт.png",
+    "width": 2362,
+    "height": 1653
+  },
+  {
+    "name": "education-editorial",
+    "source": "education-editorial.jpg",
+    "receivedFile": "photo_2025-12-27_00-00-17.jpg",
+    "width": 1162,
+    "height": 735
+  },
+  {
+    "name": "important-things",
+    "source": "important-things.jpg",
+    "receivedFile": "photo_2026-10-25_21-13-54.jpg",
+    "width": 486,
+    "height": 682
+  },
+  {
+    "name": "music-cover",
+    "source": "music-cover.jpg",
+    "receivedFile": "photo_2022-01-16_17-10-48.jpg",
+    "width": 3000,
+    "height": 3000
+  }
+]

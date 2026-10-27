@@ -47,7 +47,7 @@ projects.splice(1,0,...newProjects);
 // New demonstrations are interleaved with the existing examples.
 for(const [index,project] of additionalProjects.entries())projects.splice(1+index*2,0,project);
 for(const p of clientProjects){
-  if(p.kind!=='client'||!p.id||!p.image||!p.story?.task||!p.description||!p.story?.items?.length)throw Error('Incomplete approved portfolio project');
+  if(!['client','provided'].includes(p.kind)||!p.id||!p.image||!p.story?.task||!p.description||!p.story?.items?.length)throw Error('Incomplete approved portfolio project');
 }
 projects.unshift(...clientProjects);
 projects.forEach(project => { project.story ||= projectStories[project.id]; });

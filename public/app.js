@@ -89,7 +89,7 @@ window.matchMedia('(min-width:901px)').addEventListener('change',e=>{if(e.matche
 let contentPromise;
 const content = () => contentPromise ||= fetch('/content.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error('content');return r.json();}).catch(e=>{contentPromise=null;throw e;});
 const order=$('#order-dialog'),gallery=$('#project-dialog');
-let projectIndex=0,activeFilter='all';
+let projectIndex=0,activeFilter='all',activeOrigin=$('.project-grid')?.dataset.defaultOrigin||'all';
 const dialogOrigins=new WeakMap(),dialogClosures=new WeakMap();
 function openDialog(dialog,origin=document.activeElement){
  closeMenu();dialogOrigins.set(dialog,origin);
@@ -98,7 +98,7 @@ function openDialog(dialog,origin=document.activeElement){
 }
 function closeDialog(dialog){
  if(!dialog.open)return Promise.resolve();
- if(dialog===gallery)$('#project-video')?.pause();
+ if(dialog===gallery){$('#project-video')?.pause();projectSheetRequest++;}
  if(dialogClosures.has(dialog))return dialogClosures.get(dialog);
  const style=getComputedStyle(dialog);
  dialog.classList.add('is-closing');
@@ -129,7 +129,47 @@ async function openOrder(value='other',direction){
 }
 $$('[data-order]').forEach(b=>b.addEventListener('click',()=>openOrder(b.dataset.order)));
 $$('[data-direction]').forEach(b=>b.addEventListener('click',()=>openOrder('other',b.dataset.direction)));
-let projectRequest=0;
+let projectRequest=0,projectSheetRequest=0,projectSheets=[],activeSheet=0;
+function projectScope(project,all){
+ const visible=$$('.project:not([hidden]) .project-image[data-project]').map(button=>button.dataset.project);
+ return visible.includes(project.id)?visible:all.map(item=>item.id);
+}
+function configureProjectSheets(project){
+ projectSheetRequest++;activeSheet=0;
+ projectSheets=project.gallery?.length>1?project.gallery:[];
+ const holder=$('#project-sheets'),thumbs=$('#project-sheet-thumbs'),status=$('#project-sheet-status');
+ holder.hidden=!projectSheets.length;holder.removeAttribute('aria-busy');thumbs.replaceChildren();
+ status.textContent=projectSheets.length?`Материал 1 из ${projectSheets.length}`:'';
+ for(const [index,sheet] of projectSheets.entries()){
+  const button=document.createElement('button'),image=document.createElement('img');
+  button.type='button';button.className='project-sheet-button';button.dataset.projectSheet=String(index);
+  button.setAttribute('aria-label',`Показать: ${sheet.caption||'материал '+(index+1)}`);
+  button.setAttribute('aria-pressed',String(index===0));
+  image.src=`/assets/${sheet.image}-640.webp`;image.alt='';image.width=64;image.height=48;image.loading='lazy';
+  button.append(image);button.addEventListener('click',()=>showProjectSheet(index));thumbs.append(button);
+ }
+ thumbs.scrollLeft=0;
+}
+async function showProjectSheet(index){
+ if(!projectSheets[index])return;
+ const request=++projectSheetRequest,sheet=projectSheets[index],holder=$('#project-sheets'),status=$('#project-sheet-status');
+ if(index===activeSheet){holder.removeAttribute('aria-busy');status.textContent=`Материал ${index+1} из ${projectSheets.length}`;return;}
+ holder.setAttribute('aria-busy','true');status.textContent='Загрузка изображения…';
+ try{
+  const preload=new Image(),source=`/assets/${sheet.image}-1920.webp`;
+  preload.src=source;await preload.decode();
+  if(request!==projectSheetRequest||!gallery.open)return;
+  const image=$('#project-full');
+  await animateUI(image,[{opacity:1},{opacity:.25}],90);
+  if(request!==projectSheetRequest||!gallery.open)return;
+  image.src=source;image.alt=sheet.alt||sheet.caption;activeSheet=index;
+  $$('[data-project-sheet]').forEach(button=>button.setAttribute('aria-pressed',String(Number(button.dataset.projectSheet)===index)));
+  status.textContent=`Материал ${index+1} из ${projectSheets.length}`;
+  animateUI(image,[{opacity:.25},{opacity:1}],200);
+ }catch{
+  if(request===projectSheetRequest)status.textContent='Не удалось загрузить изображение. Нажмите на миниатюру ещё раз.';
+ }finally{if(request===projectSheetRequest)holder.removeAttribute('aria-busy');}
+}
 function setComparison(value){
  const input=$('#compare-range'),compare=$('#project-compare');
  if(!input||!compare)return;
@@ -153,7 +193,7 @@ async function showProject(index){
   if(request!==projectRequest)return false;
  }
  $('#project-title').textContent=p.title;$('#project-description').textContent=p.description;
- img.src=source;img.alt=p.alt;
+ img.src=source;img.alt=p.alt;configureProjectSheets(p);gallery.scrollTop=0;
  img.hidden=Boolean(p.video||p.before);video.hidden=!p.video;compare.hidden=!p.before;
  frame.classList.toggle('is-video',Boolean(p.video));
  video.removeAttribute('src');video.replaceChildren();video.load();
@@ -165,7 +205,7 @@ async function showProject(index){
  const transcript=$('#project-transcript');transcript.hidden=!p.transcript;transcript.textContent=p.transcript?`Озвучка: «${p.transcript}»`:'';
  $('#project-task').textContent=p.story.task;
  $('#project-items').replaceChildren(...p.story.items.map(text=>{const li=document.createElement('li');li.textContent=text;return li;}));
- $('#project-count').textContent=`${projectIndex+1} / ${ps.length}`;
+ const scope=projectScope(p,ps);$('#project-count').textContent=`${scope.indexOf(p.id)+1} / ${scope.length}`;
  $('#project-order').dataset.order=p.service;
  $('#project-order').firstChild.textContent=p.video?'Нужен похожий ролик ':p.before?'Нужно обработать фото ':'Нужен похожий дизайн ';
  if(gallery.open){
@@ -176,10 +216,13 @@ async function showProject(index){
 }
 $$('[data-project]').forEach(b=>b.addEventListener('click',async()=>{try{const data=await content();if(await showProject(data.projects.findIndex(p=>p.id===b.dataset.project)))openDialog(gallery,b);}catch{b.setAttribute('aria-label','Не удалось загрузить просмотр. Попробуйте ещё раз.');}}));
 $('#project-order')?.addEventListener('click',e=>openOrder(e.currentTarget.dataset.order));
-function nextProject(direction){showProject(projectIndex+direction).catch(()=>{$('#project-description').textContent='Не удалось загрузить изображение. Попробуйте переключить ещё раз.';});}
+async function nextProject(direction){
+ try{const data=await content(),scope=projectScope(data.projects[projectIndex],data.projects),position=scope.indexOf(data.projects[projectIndex].id);await showProject(data.projects.findIndex(project=>project.id===scope[(position+direction+scope.length)%scope.length]));}
+ catch{$('#project-description').textContent='Не удалось загрузить изображение. Попробуйте переключить ещё раз.';}
+}
 $('[data-prev]')?.addEventListener('click',()=>nextProject(-1));
 $('[data-next]')?.addEventListener('click',()=>nextProject(1));
-gallery?.addEventListener('keydown',e=>{if(e.target.closest('video,input'))return;if(e.key==='ArrowRight'){e.preventDefault();nextProject(1);}if(e.key==='ArrowLeft'){e.preventDefault();nextProject(-1);}});
+gallery?.addEventListener('keydown',e=>{if(e.target.closest('video,input,[data-project-sheet]'))return;if(e.key==='ArrowRight'){e.preventDefault();nextProject(1);}if(e.key==='ArrowLeft'){e.preventDefault();nextProject(-1);}});
 const filterRequests=new WeakMap();
 async function filterGrid(grid,update){
  const request={};filterRequests.set(grid,request);
@@ -192,16 +235,30 @@ async function filterGrid(grid,update){
  await animateUI(grid,[{opacity:0,height:`${height}px`},{opacity:1,height:`${nextHeight}px`}],280);
  if(filterRequests.get(grid)===request){grid.classList.remove('grid-moving');filterRequests.delete(grid);}
 }
-$$('[data-filter]').forEach(b=>b.addEventListener('click',()=>{
- if(activeFilter===b.dataset.filter)return;
- activeFilter=b.dataset.filter;
- $$('[data-filter]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
- filterGrid($('.project-grid'),()=>{
-  let visible=0;$$('.project').forEach(p=>{p.hidden=activeFilter!=='all'&&p.dataset.category!==activeFilter;if(!p.hidden)visible++;});
-  $('.project-grid').classList.toggle('is-filtered',activeFilter!=='all');
-  $('#filter-status').textContent=`Показано примеров: ${visible}`;
- });
+function renderProjects(animate=true){
+ const grid=$('.project-grid');if(!grid)return;
+ const update=()=>{
+  let visible=0;$$('.project').forEach(project=>{project.hidden=(activeOrigin!=='all'&&project.dataset.origin!==activeOrigin)||(activeFilter!=='all'&&project.dataset.category!==activeFilter);if(!project.hidden)visible++;});
+  grid.classList.toggle('is-filtered',activeFilter!=='all');
+  $('#filter-status').textContent=`Показано работ: ${visible}`;
+ };
+ return animate?filterGrid(grid,update):update();
+}
+$$('[data-filter]').forEach(button=>button.addEventListener('click',()=>{
+ if(activeFilter===button.dataset.filter)return;
+ activeFilter=button.dataset.filter;
+ $$('[data-filter]').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));renderProjects();
 }));
+$$('[data-origin-filter]').forEach(button=>button.addEventListener('click',()=>{
+ if(activeOrigin===button.dataset.originFilter)return;
+ activeOrigin=button.dataset.originFilter;activeFilter='all';
+ $$('[data-origin-filter]').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
+ $$('[data-filter]').forEach(item=>{
+  item.setAttribute('aria-pressed',String(item.dataset.filter==='all'));
+  item.hidden=item.dataset.filter!=='all'&&!$$('.project').some(project=>project.dataset.origin===activeOrigin&&project.dataset.category===item.dataset.filter);
+ });renderProjects();
+}));
+renderProjects(false);
 
 const serviceGrid=$('.service-grid'),serviceMore=$('[data-service-more]');
 if(serviceGrid&&serviceMore){
