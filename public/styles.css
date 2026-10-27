@@ -760,6 +760,10 @@ body:has(>main>.hero)>.header .mobile-nav{background:#21150f;color:#fff8f1;borde
 .designer-approach{background:#753b29;color:#fff8f1}
 .designer-approach-copy>p{font-size:16px;line-height:1.8;color:#f5dfd0;margin-bottom:20px;max-width:62ch}
 .designer-approach-copy>.designer-lead{font-size:23px;line-height:1.55;color:#fff8f1}
+.designer-tools{margin-top:28px;padding-top:24px;border-top:1px solid #9b624b}
+.designer-tools h3{font-size:18px;font-weight:600;line-height:1.4}
+.designer-tools ul{display:flex;flex-wrap:wrap;gap:10px 24px;margin:16px 0 0;padding:0;list-style:none}
+.designer-tools li{font-size:15px;color:#fff8f1;line-height:1.6}
 .designer-reading{display:flex;flex-wrap:wrap;gap:12px 28px;margin-top:28px}
 .designer-reading a{display:flex;align-items:center;gap:12px;min-height:44px;font-size:14px;text-decoration:underline;text-underline-offset:4px}
 .designer-reading svg{width:18px}

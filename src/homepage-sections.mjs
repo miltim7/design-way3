@@ -39,7 +39,7 @@ export function homepageSections({ esc, money, arrow, plus, picture, serviceArt,
     <div class="collaboration-layout"><div class="coordinator-copy">
       ${site.coordinator.photo?`<img class="coordinator-photo" src="${esc(site.coordinator.photo)}" alt="${esc(site.coordinator.name)} — графический дизайнер" srcset="${esc(site.coordinator.photoSrcset||'')}" sizes="(max-width:800px) calc(100vw - 40px), 460px" width="853" height="1280" loading="lazy">`:''}
       <h3>Я — ${esc(site.coordinator.fullName)}.</h3><p class="coordinator-role">${esc(site.coordinator.role)}</p>
-      <p>В основном занимаюсь дизайном сам: обсуждаю идею, разрабатываю макеты и готовлю файлы для печати или публикации. Со мной можно напрямую обсудить работу, уточнить детали и внести правки.</p><a class="text-link" href="/about/">Познакомиться со мной ${arrow}</a>
+      <p>${esc(site.coordinator.summary)}</p><a class="text-link" href="/about/">Познакомиться со мной ${arrow}</a>
     </div><ol class="conversation-steps">
       <li><span class="conversation-number" aria-hidden="true">01</span><div><h3>Сначала — ваша идея</h3><p>Расскажите о бизнесе, событии или проекте. Можно своими словами, с наброском или ссылкой на то, что нравится.</p></div></li>
       <li><span class="conversation-number" aria-hidden="true">02</span><div><h3>Потом — понятный план</h3><p>Вместе определим, какие материалы нужны и что вы получите. До начала работы согласуем состав макетов, стоимость, сроки и порядок правок.</p></div></li>
