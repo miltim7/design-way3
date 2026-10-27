@@ -556,6 +556,21 @@ body:has(>main>.hero)>.header .mobile-nav{background:#21150f;color:#fff8f1;borde
 .work-gallery .project-caption{display:block;padding-top:16px}
 .work-gallery .project-grid .project-caption h3{font-size:20px;line-height:1.35}
 .work-gallery .project-caption p{margin-top:5px;font-size:13px}
+.work-gallery .project-grid[data-page-size]:not(.is-filtered) .project-4,.work-gallery .project-grid[data-page-size]:not(.is-filtered) .project-5{grid-column:span 6}
+@media(min-width:601px) and (max-width:900px){.work-gallery .project-grid[data-page-size]:not(.is-filtered) .project-0{grid-column:span 6!important}}
+.gallery-pagination{display:grid;grid-template-columns:1fr 44px auto 44px;grid-template-areas:"summary prev pages next";align-items:center;gap:8px;margin-top:36px}
+.gallery-pagination [data-gallery-summary]{grid-area:summary;color:#f5dfd0;font-size:14px}
+.gallery-page-prev{grid-area:prev}
+.gallery-page-next{grid-area:next}
+.gallery-page-prev svg{transform:rotate(180deg)}
+.gallery-pages{grid-area:pages;display:flex;justify-content:center;gap:4px}
+.gallery-pagination button{display:grid;place-items:center;min-width:44px;height:44px;border:1px solid #b99b87;border-radius:8px;color:#fff8f1;font-size:14px;transition:background-color 200ms ease,color 200ms ease}
+.gallery-pagination button:hover:not(:disabled){background:#8a5038}
+.gallery-pagination button[aria-current=page]{background:#fff8f1;color:#502b1f;border-color:#fff8f1}
+.gallery-pagination button[aria-current=page]:hover{background:#f5eee5}
+.gallery-pagination button:disabled{opacity:.4;cursor:default}
+.gallery-pagination :focus-visible{outline-color:#fff8f1}
+@media(max-width:600px){.gallery-pagination{grid-template-columns:44px 1fr 44px;grid-template-areas:"prev summary next" "pages pages pages";gap:12px 8px;margin-top:28px}.gallery-pagination [data-gallery-summary]{text-align:center}.gallery-pages{gap:4px}}
 .gallery-end{display:flex;justify-content:space-between;align-items:center;gap:24px;border-top:1px solid #a26d57;margin-top:52px;padding-top:24px}
 .gallery-end>p{font-size:22px;letter-spacing:-.02em}
 .gallery-end .text-link:hover{color:#fff8f1}

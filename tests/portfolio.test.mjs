@@ -11,9 +11,9 @@ test('one gallery includes all projects and filters only by design category',()=
  const cards=projects.map(project=>element({category:project.category}));
  const categories=['all','identity','print','digital','marketplace','motion'].map(filter=>element({filter}));
  const grid={classList:{toggle(){}}},status={textContent:''};
- const context=vm.createContext({activeFilter:'all',
-  $:selector=>selector==='.project-grid'?grid:status,
-  $$:selector=>selector==='.project'?cards:categories,
+ const context=vm.createContext({activeFilter:'all',projectPage:1,projectPageSize:0,
+  $:selector=>selector==='.project-grid'?grid:selector==='#filter-status'?status:null,
+  $$:selector=>selector==='.project'?cards:selector==='[data-filter]'?categories:[],
   filterGrid(_grid,update){update();return Promise.resolve();}});
  vm.runInContext(part('function renderProjects(','const serviceGrid='),context);
  assert.equal(cards.filter(card=>!card.hidden).length,29);
@@ -24,6 +24,45 @@ test('one gallery includes all projects and filters only by design category',()=
   assert.equal(status.textContent,'Показано работ: '+expected.length);
  }
  assert(categories.every(button=>!button.hidden));
+});
+
+function paginatedContext(){
+ const cards=projects.map(project=>element({category:project.category}));
+ const categories=['all','identity','print','digital','marketplace','motion'].map(filter=>element({filter}));
+ const pages=Array.from({length:5},(_,index)=>element({galleryPage:String(index+1)}));
+ const pager=element({pages:'5'}),status={textContent:''},summary={textContent:''},prev=element({}),next=element({});
+ const heading={...element({}),getAttribute(name){return this.attributes[name]??null;},focus(options){this.focusOptions=options;},scrollIntoView(options){this.scrollOptions=options;}};
+ const nodes={'.project-grid':{classList:{toggle(){}}},'[data-gallery-pagination]':pager,'#filter-status':status,'[data-gallery-summary]':summary,'[data-gallery-prev]':prev,'[data-gallery-next]':next,'#work-title':heading};
+ const context=vm.createContext({activeFilter:'all',projectPage:1,projectPageSize:6,motionPreference:{matches:false},
+  $:selector=>nodes[selector]||null,
+  $$:selector=>selector==='.project'?cards:selector==='[data-filter]'?categories:selector==='[data-gallery-page]'?pages:[],
+  filterGrid(_grid,update){update();return Promise.resolve();}});
+ vm.runInContext(part('function renderProjects(','const serviceGrid='),context);
+ return {context,cards,categories,pages,pager,status,summary,prev,next,heading};
+}
+test('homepage paginates six works, clamps the last page and resets pagination for categories',()=>{
+ const state=paginatedContext();
+ assert.equal(state.cards.filter(card=>!card.hidden).length,6);assert.equal(state.pager.dataset.pages,'5');assert(state.prev.disabled);
+ state.pages[4].listeners.click();
+ assert.equal(state.cards.filter(card=>!card.hidden).length,5);assert(state.next.disabled);
+ assert.equal(state.summary.textContent,'25–29 из 29');assert.equal(state.pages[4].attributes['aria-current'],'page');
+ state.categories.find(button=>button.dataset.filter==='print').listeners.click();
+ assert.equal(state.context.projectPage,1);assert.equal(state.pager.dataset.pages,'2');
+ assert.equal(state.cards.filter(card=>!card.hidden).length,6);assert.equal(state.pages.filter(button=>!button.hidden).length,2);
+ state.next.listeners.click();assert.equal(state.cards.filter(card=>!card.hidden).length,4);assert.equal(state.summary.textContent,'7–10 из 10');
+ state.categories.find(button=>button.dataset.filter==='motion').listeners.click();
+ assert(state.pager.hidden);assert.equal(state.cards.filter(card=>!card.hidden).length,2);
+ state.categories[0].listeners.click();assert.equal(state.context.projectPage,1);assert(!state.pager.hidden);assert.equal(state.cards.filter(card=>!card.hidden).length,6);
+});
+test('changing a gallery page transfers focus to its heading and respects reduced motion',async()=>{
+ const state=paginatedContext();
+ await state.context.changeProjectPage(2);
+ assert.deepEqual({...state.heading.focusOptions},{preventScroll:true});
+ assert.deepEqual({...state.heading.scrollOptions},{behavior:'smooth',block:'start'});
+ assert.equal(state.heading.attributes.tabindex,'-1');state.heading.listeners.blur();assert.equal(state.heading.attributes.tabindex,undefined);
+ state.context.motionPreference.matches=true;await state.context.changeProjectPage(3);
+ assert.equal(state.heading.scrollOptions.behavior,'instant');
+ await state.context.changeProjectPage(99);assert.equal(state.context.projectPage,5);
 });
 
 test('viewer follows the combined filtered gallery and wraps to its first project',async()=>{

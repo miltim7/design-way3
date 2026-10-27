@@ -89,7 +89,8 @@ window.matchMedia('(min-width:901px)').addEventListener('change',e=>{if(e.matche
 let contentPromise;
 const content = () => contentPromise ||= fetch('/content.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error('content');return r.json();}).catch(e=>{contentPromise=null;throw e;});
 const order=$('#order-dialog'),gallery=$('#project-dialog');
-let projectIndex=0,activeFilter='all';
+let projectIndex=0,activeFilter='all',projectPage=1;
+const projectPageSize=Number($('.project-grid')?.dataset.pageSize)||0;
 const dialogOrigins=new WeakMap(),dialogClosures=new WeakMap();
 function openDialog(dialog,origin=document.activeElement){
  closeMenu();dialogOrigins.set(dialog,origin);
@@ -238,17 +239,47 @@ async function filterGrid(grid,update){
 function renderProjects(animate=true){
  const grid=$('.project-grid');if(!grid)return;
  const update=()=>{
-  let visible=0;$$('.project').forEach(project=>{project.hidden=activeFilter!=='all'&&project.dataset.category!==activeFilter;if(!project.hidden)visible++;});
+  const cards=$$('.project'),matching=cards.filter(project=>activeFilter==='all'||project.dataset.category===activeFilter);
+  const pages=projectPageSize?Math.max(1,Math.ceil(matching.length/projectPageSize)):1;
+  projectPage=Math.max(1,Math.min(projectPage,pages));
+  const first=projectPageSize?(projectPage-1)*projectPageSize:0;
+  const selected=matching.slice(first,projectPageSize?first+projectPageSize:undefined),visible=new Set(selected);
+  cards.forEach(project=>{project.hidden=!visible.has(project);});
+  const pager=$('[data-gallery-pagination]');
+  if(pager){
+   pager.hidden=pages<=1;pager.dataset.pages=String(pages);
+   $('[data-gallery-summary]').textContent=matching.length?`${first+1}–${first+selected.length} из ${matching.length}`:'Нет работ в этом направлении';
+   $('[data-gallery-prev]').disabled=projectPage===1;
+   $('[data-gallery-next]').disabled=projectPage===pages;
+   $$('[data-gallery-page]').forEach(button=>{
+    const page=Number(button.dataset.galleryPage);button.hidden=page>pages;
+    if(page===projectPage)button.setAttribute('aria-current','page');else button.removeAttribute('aria-current');
+   });
+  }
   grid.classList.toggle('is-filtered',activeFilter!=='all');
-  $('#filter-status').textContent=`Показано работ: ${visible}`;
+  $('#filter-status').textContent=projectPageSize&&matching.length?`Показаны работы ${first+1}–${first+selected.length} из ${matching.length}. Страница ${projectPage} из ${pages}.`:`Показано работ: ${selected.length}`;
  };
  return animate?filterGrid(grid,update):update();
 }
 $$('[data-filter]').forEach(button=>button.addEventListener('click',()=>{
  if(activeFilter===button.dataset.filter)return;
- activeFilter=button.dataset.filter;
+ activeFilter=button.dataset.filter;projectPage=1;
  $$('[data-filter]').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));renderProjects();
 }));
+function changeProjectPage(page){
+ if(!projectPageSize)return;
+ page=Math.max(1,Math.min(page,Number($('[data-gallery-pagination]').dataset.pages)||1));
+ if(page===projectPage)return;
+ projectPage=page;
+ const changed=renderProjects(),heading=$('#work-title'),tabindex=heading.getAttribute('tabindex');
+ heading.setAttribute('tabindex','-1');heading.focus({preventScroll:true});
+ heading.addEventListener('blur',()=>{if(tabindex===null)heading.removeAttribute('tabindex');else heading.setAttribute('tabindex',tabindex);},{once:true});
+ heading.scrollIntoView({behavior:motionPreference.matches?'instant':'smooth',block:'start'});
+ return changed;
+}
+$$('[data-gallery-page]').forEach(button=>button.addEventListener('click',()=>changeProjectPage(Number(button.dataset.galleryPage))));
+$('[data-gallery-prev]')?.addEventListener('click',()=>changeProjectPage(projectPage-1));
+$('[data-gallery-next]')?.addEventListener('click',()=>changeProjectPage(projectPage+1));
 renderProjects(false);
 
 const serviceGrid=$('.service-grid'),serviceMore=$('[data-service-more]');
