@@ -749,6 +749,9 @@ body:has(>main>.hero)>.header .mobile-nav{background:#21150f;color:#fff8f1;borde
 .designer-conversation .designer-biography p:last-child{margin-bottom:0}
 .designer-split{display:grid;grid-template-columns:1fr 1fr;gap:100px}
 .designer-split h2{font-size:clamp(32px,3.4vw,48px);line-height:1.15;letter-spacing:-.03em}
+@media(min-width:801px) and (prefers-reduced-motion:no-preference){
+ #practice-title,#approach-title{position:sticky;top:112px;align-self:start}
+}
 .designer-practice{background:#fffcf8}
 .designer-practice-list>div{display:grid;grid-template-columns:124px minmax(0,1fr);gap:24px;align-items:start;padding:28px 0;border-top:1px solid #d5c4b5}
 .designer-practice-list>div>img{width:124px;height:154px;object-fit:cover;border-radius:2px}
