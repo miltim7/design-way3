@@ -7,43 +7,40 @@ const source=await readFile(new URL('../public/app.js',import.meta.url),'utf8');
 const part=(start,end)=>source.slice(source.indexOf(start),source.indexOf(end,source.indexOf(start)));
 const element=dataset=>({dataset,hidden:false,attributes:{},listeners:{},setAttribute(key,value){this.attributes[key]=value;},removeAttribute(key){delete this.attributes[key];},addEventListener(type,listener){this.listeners[type]=listener;}});
 
-test('designer and demonstration selections stay separate; changing selection resets categories',()=>{
- const cards=projects.map(project=>element({origin:['provided','client'].includes(project.kind)?'designer':'demo',category:project.category}));
+test('one gallery includes all projects and filters only by design category',()=>{
+ const cards=projects.map(project=>element({category:project.category}));
  const categories=['all','identity','print','digital','marketplace','motion'].map(filter=>element({filter}));
- const origins=['designer','demo'].map(originFilter=>element({originFilter}));
  const grid={classList:{toggle(){}}},status={textContent:''};
- const context=vm.createContext({activeOrigin:'designer',activeFilter:'all',
+ const context=vm.createContext({activeFilter:'all',
   $:selector=>selector==='.project-grid'?grid:status,
-  $$:selector=>selector==='.project'?cards:selector==='[data-filter]'?categories:origins,
+  $$:selector=>selector==='.project'?cards:categories,
   filterGrid(_grid,update){update();return Promise.resolve();}});
  vm.runInContext(part('function renderProjects(','const serviceGrid='),context);
- assert.equal(cards.filter(card=>!card.hidden).length,10);
- assert(cards.filter(card=>!card.hidden).every(card=>card.dataset.origin==='designer'));
- categories.find(button=>button.dataset.filter==='print').listeners.click();
- assert.equal(cards.filter(card=>!card.hidden).length,4);
- origins[1].listeners.click();
- assert.equal(cards.filter(card=>!card.hidden).length,19);
- assert.equal(context.activeFilter,'all');
- assert(cards.filter(card=>!card.hidden).every(card=>card.dataset.origin==='demo'));
- categories.find(button=>button.dataset.filter==='motion').listeners.click();
- assert.equal(cards.filter(card=>!card.hidden).length,2);
- origins[0].listeners.click();
- assert.equal(cards.filter(card=>!card.hidden).length,10);
- assert(categories.find(button=>button.dataset.filter==='motion').hidden);
- assert(categories.find(button=>button.dataset.filter==='marketplace').hidden);
+ assert.equal(cards.filter(card=>!card.hidden).length,29);
+ for(const category of ['print','marketplace','motion','all']){
+  categories.find(button=>button.dataset.filter===category).listeners.click();
+  const expected=projects.filter(project=>category==='all'||project.category===category);
+  assert.equal(cards.filter(card=>!card.hidden).length,expected.length);
+  assert.equal(status.textContent,'Показано работ: '+expected.length);
+ }
+ assert(categories.every(button=>!button.hidden));
 });
 
-test('next project follows the visible selection and wraps without crossing into demonstrations',async()=>{
- let visible=projects.filter(project=>project.kind==='provided'&&project.category==='print').map(project=>({dataset:{project:project.id}}));
+test('viewer follows the combined filtered gallery and wraps to its first project',async()=>{
+ let visibleProjects=projects.filter(project=>project.category==='print');
  const calls=[];
- const context=vm.createContext({projectIndex:2,$$:()=>visible,$:()=>({}),content:async()=>({projects}),showProject:async index=>{calls.push(index);context.projectIndex=index;}});
+ const context=vm.createContext({projectIndex:projects.indexOf(visibleProjects[0]),
+  $$:()=>visibleProjects.map(project=>({dataset:{project:project.id}})),
+  $:()=>({}),content:async()=>({projects}),showProject:async index=>{calls.push(index);context.projectIndex=index;}});
  vm.runInContext(part('function projectScope(','function configureProjectSheets(')+part('async function nextProject(',"$('[data-prev]')"),context);
- await context.nextProject(1);assert.equal(projects[calls.at(-1)].id,'retro-style-editorial');
- await context.nextProject(1);assert.equal(projects[calls.at(-1)].id,'education-editorial');
- await context.nextProject(1);assert.equal(projects[calls.at(-1)].id,'education-ai-magazine');
- visible=projects.filter(project=>project.kind==='provided').map(project=>({dataset:{project:project.id}}));
- context.projectIndex=projects.findIndex(project=>project.id==='courier-film');
- await context.nextProject(1);assert.equal(projects[calls.at(-1)].id,'tea-packaging');
+ for(let i=1;i<=visibleProjects.length;i++){
+  await context.nextProject(1);assert.equal(projects[calls.at(-1)].id,visibleProjects[i%visibleProjects.length].id);
+ }
+ assert(visibleProjects.some(project=>project.kind==='provided'));
+ assert(visibleProjects.some(project=>!project.kind));
+ visibleProjects=projects;
+ context.projectIndex=projects.findIndex(project=>project.id==='purple-music-cover');
+ await context.nextProject(1);assert.equal(projects[calls.at(-1)].id,projects[10].id);
 });
 
 function sheetContext(decode){

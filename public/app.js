@@ -89,7 +89,7 @@ window.matchMedia('(min-width:901px)').addEventListener('change',e=>{if(e.matche
 let contentPromise;
 const content = () => contentPromise ||= fetch('/content.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error('content');return r.json();}).catch(e=>{contentPromise=null;throw e;});
 const order=$('#order-dialog'),gallery=$('#project-dialog');
-let projectIndex=0,activeFilter='all',activeOrigin=$('.project-grid')?.dataset.defaultOrigin||'all';
+let projectIndex=0,activeFilter='all';
 const dialogOrigins=new WeakMap(),dialogClosures=new WeakMap();
 function openDialog(dialog,origin=document.activeElement){
  closeMenu();dialogOrigins.set(dialog,origin);
@@ -238,7 +238,7 @@ async function filterGrid(grid,update){
 function renderProjects(animate=true){
  const grid=$('.project-grid');if(!grid)return;
  const update=()=>{
-  let visible=0;$$('.project').forEach(project=>{project.hidden=(activeOrigin!=='all'&&project.dataset.origin!==activeOrigin)||(activeFilter!=='all'&&project.dataset.category!==activeFilter);if(!project.hidden)visible++;});
+  let visible=0;$$('.project').forEach(project=>{project.hidden=activeFilter!=='all'&&project.dataset.category!==activeFilter;if(!project.hidden)visible++;});
   grid.classList.toggle('is-filtered',activeFilter!=='all');
   $('#filter-status').textContent=`Показано работ: ${visible}`;
  };
@@ -248,15 +248,6 @@ $$('[data-filter]').forEach(button=>button.addEventListener('click',()=>{
  if(activeFilter===button.dataset.filter)return;
  activeFilter=button.dataset.filter;
  $$('[data-filter]').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));renderProjects();
-}));
-$$('[data-origin-filter]').forEach(button=>button.addEventListener('click',()=>{
- if(activeOrigin===button.dataset.originFilter)return;
- activeOrigin=button.dataset.originFilter;activeFilter='all';
- $$('[data-origin-filter]').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
- $$('[data-filter]').forEach(item=>{
-  item.setAttribute('aria-pressed',String(item.dataset.filter==='all'));
-  item.hidden=item.dataset.filter!=='all'&&!$$('.project').some(project=>project.dataset.origin===activeOrigin&&project.dataset.category===item.dataset.filter);
- });renderProjects();
 }));
 renderProjects(false);
 
