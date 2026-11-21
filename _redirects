@@ -1,0 +1,30 @@
+# Developer files are outside the web-facing routes.
+/backend /404.html 404!
+/backend/* /404.html 404!
+/data/* /404.html 404!
+/.env /404.html 404!
+/.env.example /404.html 404!
+/package.json /404.html 404!
+/package-lock.json /404.html 404!
+/README.md /404.html 404!
+
+# Preserve previously shared page URLs.
+/about /about.html 301!
+/about/index.html /about.html 301!
+/delivery /delivery.html 301!
+/delivery/index.html /delivery.html 301!
+/offer-agreement /offer-agreement.html 301!
+/offer-agreement/index.html /offer-agreement.html 301!
+/payment /payment.html 301!
+/payment/index.html /payment.html 301!
+/portfolio /portfolio.html 301!
+/portfolio/index.html /portfolio.html 301!
+/privacy-policy /privacy-policy.html 301!
+/privacy-policy/index.html /privacy-policy.html 301!
+/sign-in /sign-in.html 301!
+/sign-in/index.html /sign-in.html 301!
+/sign-up /sign-up.html 301!
+/sign-up/index.html /sign-up.html 301!
+# Static preview opens sign-in from the previous account URL.
+/account /sign-in.html 302!
+/account/index.html /sign-in.html 302!

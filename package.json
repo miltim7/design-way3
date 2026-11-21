@@ -7,13 +7,9 @@
     "node": ">=20"
   },
   "scripts": {
-    "dev": "node scripts/build.mjs && node server.mjs",
-    "build": "node scripts/build.mjs",
-    "start": "node server.mjs",
-    "test": "node --test tests/server.test.mjs tests/accounts.test.mjs tests/motion.test.mjs tests/service-catalog.test.mjs tests/scroll-motion.test.mjs tests/video-previews.test.mjs tests/portfolio.test.mjs",
-    "check": "node scripts/check.mjs"
-  },
-  "devDependencies": {
-    "sharp": "^0.35.5"
+    "dev": "node backend/server.mjs",
+    "start": "node backend/server.mjs",
+    "test": "node --test backend/tests",
+    "check": "node backend/check.mjs"
   }
 }

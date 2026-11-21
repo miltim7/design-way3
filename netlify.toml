@@ -1,20 +1,6 @@
 [build]
-  command = "npm run build"
-  publish = "dist"
+  command = ""
+  publish = "."
 
-[build.environment]
-  NODE_VERSION = "22"
-
-# Static preview: show the sign-in form until the account API is deployed.
-# Remove these redirects when connecting the backend.
-[[redirects]]
-  from = "/account"
-  to = "/sign-in/"
-  status = 302
-  force = true
-
-[[redirects]]
-  from = "/account/"
-  to = "/sign-in/"
-  status = 302
-  force = true
+[build.processing.html]
+  pretty_urls = false
